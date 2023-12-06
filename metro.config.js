@@ -1,11 +1,29 @@
-const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+const Mcs = require('metro-code-split');
 
-/**
- * Metro configuration
- * https://facebook.github.io/metro/docs/configuration
- *
- * @type {import('metro-config').MetroConfig}
- */
-const config = {};
+const mcs = new Mcs({
+  output: {
+    // Only test
+    publicPath: 'https://github.githubassets.com/a-rn-project',
+  },
+  dll: {
+    entry: ['react-native', 'react'],
+    referenceDir: './public/dll',
+  },
+  dynamicImports: { minSize: 0 },
+});
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+const busineConfig = {
+  transformer: {
+    getTransformOptions: async () => ({
+      transform: {
+        experimentalImportSupport: false,
+        inlineRequires: true,
+      },
+    }),
+  },
+};
+
+module.exports =
+  process.env.NODE_ENV === 'production'
+    ? mcs.mergeTo(busineConfig)
+    : busineConfig;
