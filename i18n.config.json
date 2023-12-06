@@ -1,0 +1,8 @@
+{
+  "apiKey": "AIzaSyACst8BV863yziXZoyWuV8q3EdALygZqgY",
+  "outputDir": "./src/i18n",
+  "spreadsheetId": "1TZ_11zne_0PVgr0cQu0sdWp9DZFE8KAOAElVlPEwvZw",
+  "tableIndex": 0,
+  "langues": ["zh-CN", "en-US"],
+  "socksProxy": "socks5://127.0.0.1:7890"
+}
