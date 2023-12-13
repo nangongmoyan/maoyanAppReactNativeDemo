@@ -1,13 +1,13 @@
+import { NGSafeAreaView } from '@ui/index';
 import { NGScrollView } from '@ui/native-base';
 import React, { memo } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface NGLayoutProps {}
 const NGLayout: React.FC<React.PropsWithChildren<NGLayoutProps>> = ({ children }) => {
   return (
-    <SafeAreaView>
+    <NGSafeAreaView>
       <NGScrollView>{children}</NGScrollView>
-    </SafeAreaView>
+    </NGSafeAreaView>
   );
 };
 
