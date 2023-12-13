@@ -1,4 +1,4 @@
-import {Dimensions, PixelRatio, Platform} from 'react-native';
+import { Dimensions, PixelRatio, Platform } from 'react-native';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
 
 /** 设计图的宽高 */
@@ -9,7 +9,7 @@ const UI_HEIGHT = 1334;
 const pixelRatio = PixelRatio.get();
 
 /** 获取字体大小缩放比例 */
-const fontScale = PixelRatio.getFontScale();
+// const fontScale = PixelRatio.getFontScale();
 
 /** ios尺寸 */
 const iosWidth = Dimensions.get('window').width;
@@ -68,12 +68,4 @@ const adaptiveFont = (size: number) => {
   return size;
 };
 
-export {
-  vw,
-  vh,
-  deviceWidth,
-  deviceHeight,
-  adaptiveFont,
-  adaptiveWidth,
-  adaptiveHeight,
-};
+export { adaptiveFont, adaptiveHeight, adaptiveWidth, deviceHeight, deviceWidth, vh, vw };

@@ -3,7 +3,7 @@
  * created by nangongmoyan on 2023.12.06
  */
 
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const uiStyles = StyleSheet.create({});
 

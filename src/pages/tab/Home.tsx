@@ -1,11 +1,11 @@
 import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {Text, View} from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Text, View } from 'react-native';
 
 const Home: React.FC<any> = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
       <Text>{t('70db5534f81b5ffdca31b122cc35068a')}</Text>
     </View>

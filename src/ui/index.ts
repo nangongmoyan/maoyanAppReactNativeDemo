@@ -1,1 +1,1 @@
-export {ScrollView as NGScrollView} from 'native-base';
+export { ScrollView as NGScrollView } from 'native-base';

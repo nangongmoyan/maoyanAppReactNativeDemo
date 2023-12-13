@@ -9,7 +9,8 @@
   // "editor.defaultFormatter": "esbenp.prettier-vscode",
 
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": true
   },
   // window
   /* 调整窗口的缩放级别 */
@@ -75,5 +76,7 @@
     "ios/Pods/Headers/Public/Flipper-Folly/folly/lang",
     "ios/Pods/Headers/Public/RCT-Folly/folly/lang"
   ],
-  "i18n-ally.sourceLanguage": "en-US",
+  "i18n-ally.sourceLanguage": "zh-CN",
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.displayLanguage": "zh-CN",
 }
