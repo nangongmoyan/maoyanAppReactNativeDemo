@@ -1,4 +1,67 @@
 {
+  // 编辑器设置
+  /* 配置 Tab 空格数 */
+  "editor.tabSize": 2,
+  /* 字体大小 */
+  "editor.fontSize": 16,
+  /* 文字行高 */
+  "editor.lineHeight": 0,
+  // "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  // window
+  /* 调整窗口的缩放级别 */
+  "window.zoomLevel": 0,
+
+  // 工作区编辑设置
+  /* 标签格式 short：显示文件名及其目录名*/
+  "workbench.editor.labelFormat": "short",
+  /* 是否显示为预览编辑器 */
+  "workbench.editor.enablePreview": false,
+  /* 工作台中使用的颜色主题 */
+  "workbench.colorTheme": "Atom One Dark",
+
+  // 终端设置
+  /* 字体大小 */
+  "terminal.integrated.fontSize": 15,
+
+  // git设置
+  /* 自动获取 */
+  "git.autofetch": true,
+  /* 同步 Git 存储库之前确认 */
+  "git.confirmSync": false,
+  /* 当没有staged段更改时，提交所有更改 */
+  "git.enableSmartCommit": true,
+  
+
+  // typescript设置
+  // "[typescript]": {
+  //   /* 优先使用*/
+  //   "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // },
+  /* 函数名称后面加空格*/
+  "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "typescript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": true,
+
+  // javascript设置
+  // "[javascript]": {
+  //   "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // },
+  /* 函数名称后面加空格*/
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": true,
+
+  // json设置
+  // "[json]": {
+  //   "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // },
+
+  // other
+  /* 设置文件图标 */
+  "workbench.iconTheme": "material-icon-theme",
+  
   "i18n-ally.localesPaths": [
     "src/i18n",
     "ios/Pods/Flipper-Folly/folly/lang",
@@ -12,5 +75,5 @@
     "ios/Pods/Headers/Public/Flipper-Folly/folly/lang",
     "ios/Pods/Headers/Public/RCT-Folly/folly/lang"
   ],
-  "i18n-ally.sourceLanguage": "en-US"
+  "i18n-ally.sourceLanguage": "en-US",
 }
