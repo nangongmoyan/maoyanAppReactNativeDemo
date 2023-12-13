@@ -10,7 +10,7 @@
 
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
-    "source.organizeImports": true
+    "source.organizeImports": "explicit"
   },
   // window
   /* 调整窗口的缩放级别 */

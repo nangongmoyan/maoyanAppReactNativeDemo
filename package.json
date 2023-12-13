@@ -12,11 +12,12 @@
     "build:dll": "mcs-scripts build -t dll -od public/dll",
     "build": "mcs-scripts build -t busine -e index.js",
     "intl": "nangongmoyan-i18n-toolkit",
-    "prettier": "prettier --write ."  
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
+    "hoist-non-react-statics": "^3.3.2",
     "i18next": "^23.7.7",
     "maoyan-request": "^0.5.1",
     "nangongmoyan-i18n-toolkit": "^0.1.2",
@@ -36,6 +37,7 @@
     "@react-native/eslint-config": "^0.72.2",
     "@react-native/metro-config": "^0.72.11",
     "@tsconfig/react-native": "^3.0.0",
+    "@types/hoist-non-react-statics": "^3.3.5",
     "@types/react": "^18.0.24",
     "@types/react-native-extra-dimensions-android": "^1.2.3",
     "@types/react-test-renderer": "^18.0.0",
