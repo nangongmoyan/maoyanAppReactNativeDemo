@@ -1,0 +1,45 @@
+{
+  "renderItem": {
+    "prefix": "renderI",
+    "body": [
+      "  const renderItem = useCallback(({item}) => {",
+      "    return $1",
+      "  }, [])"
+    ],
+    "description": "renderItem"
+  },
+  "page": {
+    "prefix": "pag",
+    "body": [
+      "import { MaoYanRouteName } from '@const/routeNameEnum';",
+      "import { MainScreenProps } from '@navigation/type';",
+      "import React, { memo } from 'react';",
+      "import { useTranslation } from 'react-i18next';",
+      "",
+      "const $TM_FILENAME_BASE: React.FC<MainScreenProps<MaoYanRouteName.$TM_FILENAME_BASE>> = () => {",
+      "  const { t } = useTranslation();",
+      "  return null",
+      "}",
+      "",
+      "export default memo($TM_FILENAME_BASE);"
+    ],
+    "description": "page"
+  },
+  
+  "component": {
+    "prefix": "comp",
+    "body": [
+      "import React, { memo } from 'react';",
+      "import { useTranslation } from 'react-i18next';",
+      "",
+      "interface $TM_FILENAME_BASE$Props {}",
+      "const $TM_FILENAME_BASE: React.FC<$TM_FILENAME_BASE$Props> = () => {",
+      "  const { t } = useTranslation();",
+      "  return null",
+      "}",
+      "",
+      "export default memo($TM_FILENAME_BASE);"
+    ],
+    "description": "component"
+  },
+}

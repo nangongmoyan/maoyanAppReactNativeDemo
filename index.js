@@ -1,13 +1,10 @@
-/**
- * @format
- */
-
+import i18n from 'i18next';
+import { maoYan } from 'maoyan-request';
+import { initReactI18next } from 'react-i18next';
 import { AppRegistry } from 'react-native';
+import 'react-native-get-random-values';
 import { name as appName } from './app.json';
 import App from './src/main';
-
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
 
 const resources = {
   zh_CN: {
@@ -20,19 +17,11 @@ const resources = {
 
 i18n.use(initReactI18next).init({
   resources,
-  fallbackLng: 'en_US',
+  fallbackLng: 'zh_CN',
   compatibilityJSON: 'v3',
 
-  // have a common namespace used around the full app
   ns: ['common'],
-  // defaultNS: 'common',
-
-  // cache: {
-  //   enabled: true,
-  // },
-
-  // react: {
-  //   useSuspense: true,
-  // },
 });
+
+maoYan.setenv('release');
 AppRegistry.registerComponent(appName, () => App);
