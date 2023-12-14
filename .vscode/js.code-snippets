@@ -11,9 +11,10 @@
   "page": {
     "prefix": "pag",
     "body": [
+      "import ErrorCatchHOC from '@hoc/error/ErrorCatchHOC';",
       "import { MaoYanRouteName } from '@const/routeNameEnum';",
       "import { MainScreenProps } from '@navigation/type';",
-      "import React, { memo } from 'react';",
+      "import React from 'react';",
       "import { useTranslation } from 'react-i18next';",
       "",
       "const $TM_FILENAME_BASE: React.FC<MainScreenProps<MaoYanRouteName.$TM_FILENAME_BASE>> = () => {",
@@ -21,7 +22,7 @@
       "  return null",
       "}",
       "",
-      "export default memo($TM_FILENAME_BASE);"
+      "export default ErrorCatchHOC($TM_FILENAME_BASE);"
     ],
     "description": "page"
   },

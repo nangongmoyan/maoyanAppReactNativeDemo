@@ -1,1 +1,1 @@
-export { ScrollView as NGScrollView } from 'native-base';
+export { HStack, ScrollView as NGScrollView, VStack } from 'native-base';

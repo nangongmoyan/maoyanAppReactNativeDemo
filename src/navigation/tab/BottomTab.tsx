@@ -1,5 +1,5 @@
 import { BottomTabRouteName } from '@const/routeNameEnum';
-import { BottomTabParamList, RenderTabBarIcon } from '@navigation/type';
+import { BottomTabParamList, RenderTabBarIcon, RootBottomTabItem } from '@navigation/type';
 import Home from '@pages/tab/Home';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { lazy } from 'react';
@@ -11,7 +11,7 @@ const Show = lazy(() => import('@pages/tab/Show'));
 const Mine = lazy(() => import('@pages/tab/Mine'));
 const Popular = lazy(() => import('@pages/tab/Popular'));
 
-const bottomTabs = [
+const bottomTabs: RootBottomTabItem[] = [
   {
     component: Home,
     name: BottomTabRouteName.Home,
@@ -70,7 +70,7 @@ const BottomTabScreen: React.FC<any> = ({}) => {
       // }}
     >
       {bottomTabs.map((bottomTab) => {
-        const tabBarLabel = t(bottomTab.label);
+        const tabBarLabel = bottomTab.label ? t(bottomTab.label) : '';
         return (
           <BottomTab.Screen
             key={bottomTab.name}
