@@ -1,6 +1,7 @@
 import { MaoYanRouteName } from '@const/routeNameEnum';
 import { MainScreenProps } from '@navigation/type';
 import NGTabView from '@ui/NGTabView/NGTabView';
+import { statusBarHeight } from '@utils/screen';
 import React, { memo, useMemo } from 'react';
 import { View } from 'react-native';
 import Recommend from './subpages/home/recommend/Recommend';
@@ -18,6 +19,7 @@ const Home: React.FC<MainScreenProps<MaoYanRouteName.BottomTab>> = (props) => {
       },
     ];
   }, []);
+  // console.log({ statusBarHeight, titleHeight });
 
   const tabbarProps = {
     scrollEnabled: true,
@@ -34,7 +36,7 @@ const Home: React.FC<MainScreenProps<MaoYanRouteName.BottomTab>> = (props) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, paddingTop: statusBarHeight }}>
       <NGTabView routes={routes} showIndicator={true} tabbarProps={tabbarProps} />
     </View>
   );

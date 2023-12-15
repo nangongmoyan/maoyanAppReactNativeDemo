@@ -17,6 +17,7 @@ export type RenderTabBarIcon = (props: { focused: boolean; bottomTab: RootBottom
 type RootStackParams = {
   /** 顶部导航 */
   [MaoYanRouteName.BottomTab]: {};
+  [MaoYanRouteName.Detail]: {};
 };
 
 /** 堆栈路由参数列表  */

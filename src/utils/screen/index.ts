@@ -1,5 +1,5 @@
 import { Platform, StatusBar } from 'react-native';
-import { getBottomSpace, getStatusBarHeight } from 'react-native-iphone-x-helper';
+import { getBottomSpace, getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 import { deviceHeight, deviceWidth } from '../scale';
 
 const D_WIDTH = deviceWidth;
@@ -28,6 +28,7 @@ const isiPhoneX = () => {
 /**状态栏高度 */
 const statusBarHeight = (isiOS ? getStatusBarHeight() : StatusBar.currentHeight) ?? 20;
 
+console.log({ statusBarHeight: getStatusBarHeight(), isIphoneX: isIphoneX() });
 /**标题栏高度 */
 const titleHeight = statusBarHeight + (isiOS ? 44 : 33);
 

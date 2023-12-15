@@ -1,4 +1,5 @@
 import { MaoYanRouteName } from '@const/routeNameEnum';
+import { lazy } from 'react';
 import BottomTabScreen from './tab/BottomTab';
 
 interface StackValue {
@@ -8,12 +9,20 @@ interface StackValue {
   component: React.LazyExoticComponent<React.FC<any>> | React.FC<any>;
 }
 
+const Detail = lazy(() => import('@pages/detail/Detail'));
+
 const stacks: { [key in string]: StackValue } = {
   BottomTab: {
     name: MaoYanRouteName.BottomTab,
     component: BottomTabScreen,
     path: '',
     headerShown: false,
+  },
+  Detail: {
+    name: MaoYanRouteName.Detail,
+    component: Detail,
+    path: '',
+    // headerShown: false,
   },
 };
 
