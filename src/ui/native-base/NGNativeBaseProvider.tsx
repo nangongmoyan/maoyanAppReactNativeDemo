@@ -18,4 +18,5 @@ const NGNativeBaseProvider: React.FC<React.PropsWithChildren<NGNativeBaseProvide
   );
 };
 
-export { NGNativeBaseProvider };
+export default NGNativeBaseProvider;
+// export { NGNativeBaseProvider };

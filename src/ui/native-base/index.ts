@@ -1,3 +1,5 @@
-export { HStack, ScrollView as NGScrollView, VStack } from 'native-base';
+export { Center as NGCenter, Pressable as NGPressable, ScrollView as NGScrollView } from 'native-base';
 
-export * from './NGNativeBaseProvider';
+export { default as NGNativeBaseProvider } from './NGNativeBaseProvider';
+
+export { default as ngTheme } from './theme';

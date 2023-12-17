@@ -1,4 +1,4 @@
-import { BottomTabRouteName, MaoYanRouteName } from '@const/routeNameEnum';
+import { BottomTabRouteName, MaoYanRouteName } from '@enum/routeName';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ImageSourcePropType } from 'react-native';

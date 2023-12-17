@@ -1,16 +1,16 @@
-import { MaoYanRouteName } from '@const/routeNameEnum';
+import { MaoYanRouteName } from '@enum/routeName';
 import ErrorCatchHOC from '@hoc/error/ErrorCatchHOC';
-import { useNavigation } from '@react-navigation/native';
+import useNGNavigation from '@hooks/useNGNavigation';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, Text, View } from 'react-native';
 
 const Recommend: React.FC<any> = ({}) => {
-  const navigation = useNavigation();
+  const navigation = useNGNavigation();
   const { t } = useTranslation();
 
   const go2Detail = () => {
-    navigation.navigate(MaoYanRouteName.Detail);
+    navigation.push(MaoYanRouteName.Detail, {});
   };
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

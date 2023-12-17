@@ -1,4 +1,4 @@
-import { BottomTabRouteName } from '@const/routeNameEnum';
+import { BottomTabRouteName } from '@enum/routeName';
 import { BottomTabParamList, RenderTabBarIcon, RootBottomTabItem } from '@navigation/type';
 import Home from '@pages/tab/Home';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';

@@ -1,4 +1,4 @@
-import { MaoYanRouteName } from '@const/routeNameEnum';
+import { MaoYanRouteName } from '@enum/routeName';
 import { MainScreenProps } from '@navigation/type';
 import React from 'react';
 import { Text, View } from 'react-native';

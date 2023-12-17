@@ -14,13 +14,10 @@ const pixelRatio = PixelRatio.get();
 /** ios尺寸 */
 const iosWidth = Dimensions.get('window').width;
 const iosHeight = Dimensions.get('window').height;
-/** android尺寸 */
-const androidWidth = ExtraDimensions.get('REAL_WINDOW_WIDTH');
-const androidHeight = ExtraDimensions.get('REAL_WINDOW_HEIGHT');
 
 /** 实际设备的尺寸 */
-const deviceWidth = Platform.OS === 'ios' ? iosWidth : androidWidth;
-const deviceHeight = Platform.OS === 'ios' ? iosHeight : androidHeight;
+const deviceWidth = Platform.OS === 'ios' ? iosWidth : ExtraDimensions.get('REAL_WINDOW_WIDTH');
+const deviceHeight = Platform.OS === 'ios' ? iosHeight : ExtraDimensions.get('REAL_WINDOW_HEIGHT');
 
 /** 将一个布局尺寸(dp)转换为像素尺寸(px) */
 const screenWidthPx = PixelRatio.getPixelSizeForLayoutSize(deviceWidth);

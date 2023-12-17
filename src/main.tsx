@@ -3,11 +3,11 @@ import { NGNativeBaseProvider } from '@ui/native-base';
 import { NGQueryClientProvider, ngQueryClient } from '@utils/query';
 import React, { Suspense } from 'react';
 import { StatusBar, Text } from 'react-native';
-import { NGSafeAreaProvider } from './ui';
+import { NGSAProvider } from './ui';
 
 const Main = () => {
   return (
-    <NGSafeAreaProvider>
+    <NGSAProvider>
       <StatusBar backgroundColor="transparent" translucent />
       <NGNativeBaseProvider>
         <NGQueryClientProvider client={ngQueryClient}>
@@ -16,7 +16,7 @@ const Main = () => {
           </Suspense>
         </NGQueryClientProvider>
       </NGNativeBaseProvider>
-    </NGSafeAreaProvider>
+    </NGSAProvider>
   );
 };
 

@@ -1,12 +1,11 @@
-import { MaoYanRouteName } from '@const/routeNameEnum';
+import { HeaderWithMenu } from '@components/header';
+import { NGLayout } from '@components/layout';
+import { MaoYanRouteName } from '@enum/routeName';
 import { MainScreenProps } from '@navigation/type';
-import NGTabView from '@ui/NGTabView/NGTabView';
-import { statusBarHeight } from '@utils/screen';
+import { NGTabView } from '@ui';
 import React, { memo, useMemo } from 'react';
-import { View } from 'react-native';
 import Recommend from './subpages/home/recommend/Recommend';
-
-const Home: React.FC<MainScreenProps<MaoYanRouteName.BottomTab>> = (props) => {
+const Home: React.FC<MainScreenProps<MaoYanRouteName.BottomTab>> = ({ navigation }) => {
   const routes = useMemo(() => {
     return [
       {
@@ -19,7 +18,6 @@ const Home: React.FC<MainScreenProps<MaoYanRouteName.BottomTab>> = (props) => {
       },
     ];
   }, []);
-  // console.log({ statusBarHeight, titleHeight });
 
   const tabbarProps = {
     scrollEnabled: true,
@@ -36,9 +34,12 @@ const Home: React.FC<MainScreenProps<MaoYanRouteName.BottomTab>> = (props) => {
   };
 
   return (
-    <View style={{ flex: 1, paddingTop: statusBarHeight }}>
+    <NGLayout scrollEnabled={false}>
+      <HeaderWithMenu />
+      {/* <NGVStack flex={1} backgroundColor={'#3e3'}> */}
       <NGTabView routes={routes} showIndicator={true} tabbarProps={tabbarProps} />
-    </View>
+      {/* </NGVStack> */}
+    </NGLayout>
   );
 };
 

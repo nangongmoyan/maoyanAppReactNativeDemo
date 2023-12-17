@@ -1,4 +1,4 @@
-import { MaoYanRouteName } from '@const/routeNameEnum';
+import { MaoYanRouteName } from '@enum/routeName';
 import { lazy } from 'react';
 import BottomTabScreen from './tab/BottomTab';
 

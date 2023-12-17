@@ -1,6 +1,7 @@
 module.exports = {
   presets: ['module:metro-react-native-babel-preset'],
   plugins: [
+    'react-native-reanimated/plugin',
     [
       require.resolve('babel-plugin-module-resolver'),
       {
@@ -9,11 +10,14 @@ module.exports = {
         alias: {
           '@ui': './src/ui',
           '@hoc': './src/hoc',
+          '@enum': './src/enum',
           '@utils': './src/utils',
           '@const': './src/const',
           '@pages': './src/pages',
           '@types': './src/types',
+          '@hooks': './src/hooks',
           '@styles': './src/styles',
+          '@myTypes': './src/myTypes',
           '@svgs': './src/assets/svgs',
           '@images': './src/assets/images',
           '@navigation': './src/navigation',
