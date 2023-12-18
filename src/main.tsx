@@ -1,11 +1,19 @@
 import Router from '@navigation/router';
-import { NGNativeBaseProvider } from '@ui/native-base';
+import { getAddress } from '@utils/config';
 import { NGQueryClientProvider, ngQueryClient } from '@utils/query';
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { StatusBar, Text } from 'react-native';
-import { NGSAProvider } from './ui';
+import { NGNativeBaseProvider, NGSAProvider } from './ui';
 
 const Main = () => {
+  const initData = async () => {
+    getAddress();
+  };
+
+  useEffect(() => {
+    initData();
+  }, []);
+
   return (
     <NGSAProvider>
       <StatusBar backgroundColor="transparent" translucent />

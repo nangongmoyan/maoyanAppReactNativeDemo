@@ -6,16 +6,15 @@ const ngTheme = extendTheme({
       default: '#FFF',
       F5: '#F5F5F5',
     },
-    sizes: {
-      16: 16,
-      46: 46,
-    },
-    space: {
-      16: 16,
-      46: 46,
-    },
-    shadows: {},
   },
+  sizes: {
+    46: 46,
+  },
+  space: {
+    16: 16,
+    46: 46,
+  },
+  shadows: {},
 });
 
 export type NGThemeType = typeof ngTheme;
