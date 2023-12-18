@@ -36,9 +36,7 @@ const Home: React.FC<MainScreenProps<MaoYanRouteName.BottomTab>> = ({ navigation
   return (
     <NGLayout scrollEnabled={false}>
       <HeaderWithMenu />
-      {/* <NGVStack flex={1} backgroundColor={'#3e3'}> */}
       <NGTabView routes={routes} showIndicator={true} tabbarProps={tabbarProps} />
-      {/* </NGVStack> */}
     </NGLayout>
   );
 };

@@ -11,8 +11,8 @@ interface NGVStack extends IVStackProps {
 const NGVStack: React.FC<React.PropsWithChildren<NGVStack>> = ({ centerH, centerV, children, ...props }) => {
   const restProps = useMemo(() => {
     const rest = props;
-    centerV && Object.assign(rest, { alignItems: 'center' });
-    centerH && Object.assign(rest, { justifyContent: 'center' });
+    centerV && Object.assign(rest, { justifyContent: 'center' });
+    centerH && Object.assign(rest, { alignItems: 'center' });
     return rest;
   }, [centerH, centerV, props]);
 

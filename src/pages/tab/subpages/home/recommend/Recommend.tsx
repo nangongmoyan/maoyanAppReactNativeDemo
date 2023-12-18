@@ -10,7 +10,7 @@ const Recommend: React.FC<any> = ({}) => {
   const { t } = useTranslation();
 
   const go2Detail = () => {
-    navigation.push(MaoYanRouteName.Detail, {});
+    navigation.push(MaoYanRouteName.City, {});
   };
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

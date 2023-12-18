@@ -11,8 +11,8 @@
   "page": {
     "prefix": "pag",
     "body": [
+      "import { MaoYanRouteName } from '@enum/routeName';",
       "import ErrorCatchHOC from '@hoc/error/ErrorCatchHOC';",
-      "import { MaoYanRouteName } from '@const/routeNameEnum';",
       "import { MainScreenProps } from '@navigation/type';",
       "import React from 'react';",
       "import { useTranslation } from 'react-i18next';",

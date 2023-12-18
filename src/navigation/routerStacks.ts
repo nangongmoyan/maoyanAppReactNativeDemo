@@ -1,4 +1,5 @@
 import { MaoYanRouteName } from '@enum/routeName';
+import City from '@pages/city/City';
 import { lazy } from 'react';
 import BottomTabScreen from './tab/BottomTab';
 
@@ -21,6 +22,12 @@ const stacks: { [key in string]: StackValue } = {
   Detail: {
     name: MaoYanRouteName.Detail,
     component: Detail,
+    path: '',
+    // headerShown: false,
+  },
+  City: {
+    name: MaoYanRouteName.City,
+    component: City,
     path: '',
     // headerShown: false,
   },

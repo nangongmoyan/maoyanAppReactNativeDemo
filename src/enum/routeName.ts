@@ -1,6 +1,7 @@
 export enum MaoYanRouteName {
   'BottomTab' = 'BottomTab',
   'Detail' = 'Detail',
+  'City' = 'City',
 }
 
 export enum BottomTabRouteName {

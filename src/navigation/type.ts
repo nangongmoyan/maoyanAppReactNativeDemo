@@ -18,6 +18,7 @@ type RootStackParams = {
   /** 顶部导航 */
   [MaoYanRouteName.BottomTab]: {};
   [MaoYanRouteName.Detail]: {};
+  [MaoYanRouteName.City]: {};
 };
 
 /** 堆栈路由参数列表  */

@@ -11,6 +11,7 @@ const ngTheme = extendTheme({
     46: 46,
   },
   space: {
+    10: 10,
     16: 16,
     46: 46,
   },
