@@ -1,6 +1,8 @@
+import { CityRank } from '@const/city';
+
 declare namespace MaoYanCity {
   /** 城市首字母 */
-  type Rank = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'J' | 'K' | 'L' | 'M' | 'N' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'W' | 'X' | 'Y' | 'Z';
+  type Rank = (typeof CityRank)[number];
 
   interface Position {
     lat: number; //
@@ -20,4 +22,18 @@ declare namespace MaoYanCity {
   type OriginCity = {
     [key in Rank]: CityItem[];
   };
+
+  interface SectionCityItem {
+    title: Rank;
+    data: CityItem[];
+  }
+
+  interface HeaderCityListItem extends CityItem {
+    isCurrentLocation?: boolean;
+  }
+
+  interface HeaderCityItem {
+    title: string;
+    data: HeaderCityListItem[];
+  }
 }

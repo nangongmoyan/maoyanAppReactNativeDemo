@@ -1,5 +1,5 @@
 import Router from '@navigation/router';
-import { getAddress } from '@utils/config';
+import { getCitys, getPopularCitys } from '@utils/config';
 import { NGQueryClientProvider, ngQueryClient } from '@utils/query';
 import React, { Suspense, useEffect } from 'react';
 import { StatusBar, Text } from 'react-native';
@@ -7,7 +7,8 @@ import { NGNativeBaseProvider, NGSAProvider } from './ui';
 
 const Main = () => {
   const initData = async () => {
-    getAddress();
+    getCitys();
+    getPopularCitys();
   };
 
   useEffect(() => {
@@ -16,7 +17,7 @@ const Main = () => {
 
   return (
     <NGSAProvider>
-      <StatusBar backgroundColor="transparent" translucent />
+      <StatusBar backgroundColor="transparent" translucent barStyle={'dark-content'} />
       <NGNativeBaseProvider>
         <NGQueryClientProvider client={ngQueryClient}>
           <Suspense fallback={<Text>Loading...</Text>}>

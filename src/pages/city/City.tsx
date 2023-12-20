@@ -1,65 +1,97 @@
+import { CityRank } from '@const/city';
 import { MaoYanRouteName } from '@enum/routeName';
 import ErrorCatchHOC from '@hoc/error/ErrorCatchHOC';
+import useEvent from '@hooks/useEvent';
+import { MaoYanCity } from '@myTypes/city';
 import { MainScreenProps } from '@navigation/type';
-import { NGHStack, NGSectionList, NGText, NGVStack, StraightLine } from '@ui';
-import { getAddress } from '@utils/config';
-import { deviceWidth } from '@utils/scale';
-import React from 'react';
+import { NGSectionList, NGText, NGVStack, StraightLine } from '@ui';
+import { getCitys } from '@utils/config';
+import { keyExtractor } from '@utils/keyExtractor';
+import { deviceHeight, deviceWidth } from '@utils/scale';
+import React, { useRef } from 'react';
+import { CityListHeader } from './components';
+import { HEADER_HEIGHT, ITEM_HEIGHT } from './const';
+import { getHeaderHeight } from './utils';
+
+const sectionWidth = 20;
+const statusHeight = 88;
+const sectionTopBottomHeight = 60;
 
 const City: React.FC<MainScreenProps<MaoYanRouteName.City>> = () => {
-  console.log({ xxx: getAddress() });
+  const sectionList = useRef();
+  const citys = getCitys();
 
-  const { cityKeys, citys } = getAddress();
+  const sectionItemHeight = (deviceHeight - sectionTopBottomHeight * 2 - statusHeight) / citys.length;
 
+  getHeaderHeight();
+  /**  渲染列表顶部 */
+  const renderListHeader = useEvent(() => <CityListHeader />);
+
+  /** */
+  const renderItemSeparator = () => <StraightLine width={deviceWidth - 32} />;
+
+  /** 渲染列表头部 */
+  const renderSectionHeader = useEvent(({ section }: { section: MaoYanCity.SectionCityItem }) => {
+    return (
+      <NGVStack h={HEADER_HEIGHT} centerV bg={'gray.100'} paddingX={16}>
+        <NGText>{section.title}</NGText>
+      </NGVStack>
+    );
+  });
+
+  /** 渲染列表项 */
+  const renderItem = useEvent(({ item }: { item: MaoYanCity.CityItem }) => {
+    return (
+      <NGVStack h={ITEM_HEIGHT} centerV paddingX={16}>
+        <NGText>{item.nm}</NGText>
+      </NGVStack>
+    );
+  });
+
+  const scrollToList = (index: number) => {
+    sectionList.current.scrollToLocation({ animated: true, itemIndex: 0, sectionIndex: parseInt(index), viewOffset: 44 });
+  };
+  /**  渲染侧边 */
   const renderSider = () => {
     return (
-      <NGVStack position={'absolute'} right={5}>
-        {cityKeys.map((cityKey, index) => {
-          return <NGText key={index}>{cityKey}</NGText>;
+      <NGVStack
+        position={'absolute'}
+        right={5}
+        width={sectionWidth}
+        height={deviceHeight - sectionTopBottomHeight * 2}
+        marginTop={sectionTopBottomHeight}
+      >
+        {CityRank.map((cityKey, index) => {
+          return (
+            <NGText key={index} height={sectionItemHeight} onPress={() => scrollToList(index)}>
+              {cityKey}
+            </NGText>
+          );
         })}
       </NGVStack>
     );
   };
-  const renderItem = ({ item }) => {
-    return (
-      <NGVStack h={46} centerV paddingX={16}>
-        <NGText>{item.nm}</NGText>
-      </NGVStack>
-    );
+
+  const getItemLayout = (data, index) => {
+    let [length, separator, header] = [ITEM_HEIGHT, 2, HEADER_HEIGHT];
+    return { length, offset: (length + separator) * index + header, index };
   };
 
-  const renderSectionHeader = ({ section: { title } }) => {
-    return (
-      <NGVStack h={46} centerV bg={'gray.100'} paddingX={16}>
-        <NGText>{title}</NGText>
-      </NGVStack>
-    );
-  };
-
-  const renderSeparator = () => {
-    return <StraightLine width={deviceWidth - 32} />;
-  };
-
-  const renderListHeader = () => {
-    return (
-      <NGVStack bgColor="white.default">
-        <NGHStack>
-          <NGText>当前城市</NGText>
-        </NGHStack>
-      </NGVStack>
-    );
-  };
   return (
     <NGVStack>
       <NGSectionList
         sections={citys}
-        keyExtractor={(item, index) => item + index}
-        renderItem={renderItem}
-        ListHeaderComponent={renderListHeader}
+        ref={sectionList}
         bgColor="white.default"
+        renderItem={renderItem}
+        initialNumToRender={100}
+        getItemLayout={getItemLayout}
+        keyExtractor={keyExtractor}
+        stickySectionHeadersEnabled={true}
         showsVerticalScrollIndicator={false}
+        ListHeaderComponent={renderListHeader}
         renderSectionHeader={renderSectionHeader}
-        ItemSeparatorComponent={renderSeparator}
+        ItemSeparatorComponent={renderItemSeparator}
       />
       {renderSider()}
     </NGVStack>

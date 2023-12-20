@@ -1,5 +1,4 @@
 import { MaoYanRouteName } from '@enum/routeName';
-import City from '@pages/city/City';
 import { lazy } from 'react';
 import BottomTabScreen from './tab/BottomTab';
 
@@ -11,6 +10,7 @@ interface StackValue {
 }
 
 const Detail = lazy(() => import('@pages/detail/Detail'));
+const City = lazy(() => import('@pages/city/City'));
 
 const stacks: { [key in string]: StackValue } = {
   BottomTab: {

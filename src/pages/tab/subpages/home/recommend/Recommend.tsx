@@ -14,9 +14,7 @@ const Recommend: React.FC<any> = ({}) => {
   };
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Text>{t('70db5534f81b5ffdca31b122cc35068a')}</Text>
-      <Pressable onPress={go2Detail}>
+      <Pressable onPress={go2Detail} hitSlop={20}>
         <Text>Go to Detail</Text>
       </Pressable>
     </View>
