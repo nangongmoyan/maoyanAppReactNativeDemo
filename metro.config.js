@@ -23,7 +23,4 @@ const busineConfig = {
   },
 };
 
-module.exports =
-  process.env.NODE_ENV === 'production'
-    ? mcs.mergeTo(busineConfig)
-    : busineConfig;
+module.exports = process.env.NODE_ENV === 'production' ? mcs.mergeTo(busineConfig) : busineConfig;

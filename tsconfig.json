@@ -43,6 +43,7 @@
       "@myTypes/*" : ["myTypes/*"],
       "@svgs/*" : ["assets/svgs/*"],
       "@images/*" : ["assets/images/*"],
+      "@lotties/*" : ["assets/lotties/*"],
       "@navigation/*" : ["navigation/*"],
       "@components/*" : ["components/*"],
     }, /* Specify a set of entries that re-map imports to additional lookup locations. */

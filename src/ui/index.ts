@@ -6,6 +6,7 @@ export * from './ShadowBox';
 export * from './SvgIcon';
 export * from './TabView';
 export * from './Text';
+export * from './Toast';
 export * from './VStack';
 
 export * from './native-base';

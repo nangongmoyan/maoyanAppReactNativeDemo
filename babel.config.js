@@ -20,6 +20,7 @@ module.exports = {
           '@myTypes': './src/myTypes',
           '@svgs': './src/assets/svgs',
           '@images': './src/assets/images',
+          '@lotties': './src/assets/lotties',
           '@navigation': './src/navigation',
           '@components': './src/components',
         },
