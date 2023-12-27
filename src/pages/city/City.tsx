@@ -1,410 +1,188 @@
-// import { CityRank } from '@const/city';
-// import { MaoYanRouteName } from '@enum/routeName';
-// import ErrorCatchHOC from '@hoc/error/ErrorCatchHOC';
-// import useEvent from '@hooks/useEvent';
-// import { MaoYanCity } from '@myTypes/city';
-// import { MainScreenProps } from '@navigation/type';
-// import { NGSectionList, NGText, NGVStack, StraightLine } from '@ui';
-// import { getCitys } from '@utils/config';
-// import { keyExtractor } from '@utils/keyExtractor';
-// import { deviceHeight, deviceWidth } from '@utils/scale';
-// import React, { useRef } from 'react';
-// import { CityListHeader } from './components';
-// import { HEADER_HEIGHT, ITEM_HEIGHT } from './const';
-// import { getHeaderHeight } from './utils';
-
+import { CityRank } from '@const/city';
 import { MaoYanRouteName } from '@enum/routeName';
 import { ErrorCatchHOC } from '@hoc/error';
+import useEvent from '@hooks/useEvent';
+import { MaoYanCity } from '@myTypes/city';
 import { MainScreenProps } from '@navigation/type';
+import { FlashList, ViewToken } from '@shopify/flash-list';
+import { NGText, NGVStack } from '@ui';
+import { getCitys } from '@utils/config';
+import { keyExtractor } from '@utils/keyExtractor';
+import { deviceHeight, deviceWidth } from '@utils/scale';
+import React, { useEffect, useRef, useState } from 'react';
+import { GestureResponderEvent, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { HEADER_HEIGHT, HEADER_ITEM_WIDTH } from './const';
 
-// const sectionWidth = 20;
-// const statusHeight = 88;
-// const sectionTopBottomHeight = 60;
-
-// const City: React.FC<MainScreenProps<MaoYanRouteName.City>> = () => {
-//   const sectionList = useRef();
-//   const citys = getCitys();
-
-//   const sectionItemHeight = (deviceHeight - sectionTopBottomHeight * 2 - statusHeight) / citys.length;
-
-//   getHeaderHeight();
-//   /**  渲染列表顶部 */
-//   const renderListHeader = useEvent(() => <CityListHeader />);
-
-//   /** */
-//   const renderItemSeparator = () => <StraightLine width={deviceWidth - 32} />;
-
-//   /** 渲染列表头部 */
-//   const renderSectionHeader = useEvent(({ section }: { section: MaoYanCity.SectionCityItem }) => {
-//     return (
-//       <NGVStack h={HEADER_HEIGHT} centerV bg={'gray.100'} paddingX={16}>
-//         <NGText>{section.title}</NGText>
-//       </NGVStack>
-//     );
-//   });
-
-//   /** 渲染列表项 */
-//   const renderItem = useEvent(({ item }: { item: MaoYanCity.CityItem }) => {
-//     return (
-//       <NGVStack h={ITEM_HEIGHT} centerV paddingX={16}>
-//         <NGText>{item.nm}</NGText>
-//       </NGVStack>
-//     );
-//   });
-
-//   const scrollToList = (index: number) => {
-//     sectionList.current.scrollToLocation({ animated: true, itemIndex: 0, sectionIndex: parseInt(index), viewOffset: 44 });
-//   };
-//   /**  渲染侧边 */
-//   const renderSider = () => {
-//     return (
-//       <NGVStack
-//         position={'absolute'}
-//         right={5}
-//         width={sectionWidth}
-//         height={deviceHeight - sectionTopBottomHeight * 2}
-//         marginTop={sectionTopBottomHeight}
-//       >
-//         {CityRank.map((cityKey, index) => {
-//           return (
-//             <NGText key={index} height={sectionItemHeight} onPress={() => scrollToList(index)}>
-//               {cityKey}
-//             </NGText>
-//           );
-//         })}
-//       </NGVStack>
-//     );
-//   };
-
-//   const getItemLayout = (data, index) => {
-//     let [length, separator, header] = [ITEM_HEIGHT, 2, HEADER_HEIGHT];
-//     return { length, offset: (length + separator) * index + header, index };
-//   };
-
-//   return (
-//     <NGVStack>
-//       <NGSectionList
-//         sections={citys}
-//         ref={sectionList}
-//         bgColor="white.default"
-//         renderItem={renderItem}
-//         initialNumToRender={100}
-//         getItemLayout={getItemLayout}
-//         keyExtractor={keyExtractor}
-//         stickySectionHeadersEnabled={true}
-//         showsVerticalScrollIndicator={false}
-//         ListHeaderComponent={renderListHeader}
-//         renderSectionHeader={renderSectionHeader}
-//         ItemSeparatorComponent={renderItemSeparator}
-//       />
-//       {renderSider()}
-//     </NGVStack>
-//   );
-// };
+const sectionWidth = 20;
+const statusHeight = 88;
+const sectionTopBottomHeight = 60;
+const sectionItemHeight = (deviceHeight - sectionTopBottomHeight * 2 - statusHeight) / CityRank.length;
 
 const City: React.FC<MainScreenProps<MaoYanRouteName.City>> = () => {
-  return null;
+  const citys = getCitys();
+  const flashListRef = useRef();
+  const [canTouch, setCanTouch] = useState(false);
+  const [isTouchDown, setIsTouchDown] = useState(false);
+  const [currentLetter, setCurrentLetter] = useState('A');
+
+  const renderItem = useEvent(({ item }: { item: MaoYanCity.SectionCityItem }) => (
+    <View style={styles.sectionContainer}>
+      <NGVStack h={HEADER_HEIGHT} centerV>
+        <NGText fontSize={12}>{item.title}</NGText>
+      </NGVStack>
+      <View style={styles.cityContainer}>
+        {item.data.map((value, index) => {
+          return (
+            <Pressable key={index}>
+              <View key={index} style={styles.cityItem}>
+                <Text numberOfLines={1}>{value.nm}</Text>
+              </View>
+            </Pressable>
+          );
+        })}
+      </View>
+    </View>
+  ));
+
+  const renderSelectTextView = () => {
+    return (
+      <View style={styles.selectTextContainer}>
+        <Text style={styles.selectTv}>{currentLetter}</Text>
+      </View>
+    );
+  };
+
+  const scrollSectionList = (event: GestureResponderEvent) => {
+    const touch = event.nativeEvent.touches[0];
+
+    if (
+      touch.pageY >= sectionTopBottomHeight + 40 + statusHeight &&
+      touch.pageY <= statusHeight + 40 + sectionTopBottomHeight + sectionItemHeight * 25 &&
+      touch.pageX >= deviceWidth - sectionWidth &&
+      touch.pageX <= deviceWidth
+    ) {
+      const index = (touch.pageY - sectionTopBottomHeight - 40) / sectionItemHeight;
+      if (Math.round(index) >= 0 && Math.round(index) <= 25) {
+        const letter = CityRank[Math.round(index)];
+        letter && setCurrentLetter(letter);
+
+        flashListRef?.current?.scrollToIndex({
+          viewOffset: -6,
+          viewPosition: 0,
+          index: Math.round(index),
+          animated: true,
+        });
+      }
+    }
+  };
+  /*用户手指开始触摸*/
+  const onResponderGrant = (event: GestureResponderEvent) => {
+    scrollSectionList(event);
+    setIsTouchDown(true);
+  };
+
+  const onResponderMove = (event: GestureResponderEvent) => {
+    scrollSectionList(event);
+    setIsTouchDown(true);
+  };
+
+  const onResponderRelease = () => {
+    setIsTouchDown(false);
+  };
+  const renderSider = () => {
+    return (
+      <ScrollView
+        style={styles.siderContainer}
+        onStartShouldSetResponder={() => true} // 在用户开始触摸的时候（手指刚刚接触屏幕的瞬间），是否愿意成为响应者？
+        onMoveShouldSetResponder={() => true} // :如果View不是响应者，那么在每一个触摸点开始移动（没有停下也没有离开屏幕）时再询问一次：是否愿意响应触摸交互呢？
+        onResponderTerminationRequest={() => true}
+        onResponderGrant={onResponderGrant}
+        onResponderMove={onResponderMove}
+        onResponderRelease={onResponderRelease}
+      >
+        {CityRank.map((cityKey, index) => {
+          return (
+            <NGText key={index} color={currentLetter === cityKey ? '#FD7700' : '#222'} style={styles.siderItem}>
+              {cityKey}
+            </NGText>
+          );
+        })}
+      </ScrollView>
+    );
+  };
+  const onViewableItemsChanged = ({ viewableItems }: { viewableItems: ViewToken[] }) => {
+    const title = viewableItems?.[0]?.item?.title;
+    title && title !== currentLetter && setCurrentLetter(title);
+  };
+
+  useEffect(() => {
+    setTimeout(() => setCanTouch(true), 300);
+  }, []);
+
+  return (
+    <View style={{ flex: 1 }}>
+      <FlashList
+        data={citys}
+        ref={flashListRef}
+        renderItem={renderItem}
+        estimatedItemSize={200}
+        keyExtractor={keyExtractor}
+        onViewableItemsChanged={onViewableItemsChanged}
+      />
+      {canTouch && renderSider()}
+      {isTouchDown && renderSelectTextView()}
+    </View>
+  );
 };
+
+const styles = StyleSheet.create({
+  sectionContainer: {
+    backgroundColor: '#FFF',
+    paddingHorizontal: 21,
+    paddingVertical: 15,
+    marginBottom: 6,
+  },
+  cityContainer: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+  },
+  cityItem: {
+    padding: 5,
+    marginTop: 14,
+    marginRight: 10,
+    borderRadius: 8,
+    borderWidth: 0.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: HEADER_ITEM_WIDTH,
+  },
+  siderContainer: {
+    right: 10,
+    width: sectionWidth,
+    position: 'absolute',
+    paddingTop: sectionTopBottomHeight,
+    paddingBottom: sectionTopBottomHeight,
+  },
+  siderItem: {
+    textAlign: 'center',
+    alignItems: 'center',
+    height: sectionItemHeight,
+  },
+
+  selectTextContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 5,
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: deviceHeight / 2 - 60,
+    right: deviceWidth / 2 - 50,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  selectTv: {
+    fontSize: 32,
+    color: '#FFFFFF',
+  },
+});
 export default ErrorCatchHOC(City);
-
-// import React, { Component } from 'react';
-// import { Dimensions, FlatList, ScrollView, SectionList, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-// import cityData from './city-data.json';
-
-// const { width, height } = Dimensions.get('window');
-// const touchDownBGColor = '#999999';
-// const touchUpBGColor = 'transparent';
-// const statusHeight = StatusBar.currentHeight;
-// const headerHeight = 40; //标题栏高度
-// const sectionWidth = 24; //右边导航栏宽度
-// const sectionTopBottomHeight = 50; //上下边距
-// const selectWidth = 80; //中间的字母的背景宽高
-// //每个索引的高度
-// const sectionItemHeight = (height - statusHeight - sectionTopBottomHeight * 2 - headerHeight) / 25;
-
-// class City extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       sections: [],
-//       isTouchDown: false, //触摸事件开始,类型android的onTouchDown
-//       canTouch: false, //等待界面渲染完,不然会报错
-//       selectText: '', //当前选择的字母
-//     };
-//     this.responderGrant = this.responderGrant.bind(this);
-//     this.responderMove = this.responderMove.bind(this);
-//     this.responderRelease = this.responderRelease.bind(this);
-//     this.scrollSectionList = this.scrollSectionList.bind(this);
-//   }
-
-//   componentDidMount() {
-//     this.setCurrentLocation('深圳');
-//     setTimeout(() => {
-//       this.setState({
-//         sections: cityData,
-//       });
-//     }, 100);
-//     setTimeout(() => {
-//       this.setState({
-//         canTouch: true,
-//       });
-//     }, 1600);
-//   }
-
-//   /**
-//    * 设置当前位置
-//    */
-//   setCurrentLocation(city) {
-//     cityData[0].data[0].citys[0].city = city;
-//   }
-
-//   render() {
-//     let sectionView = null;
-//     if (this.state.canTouch) {
-//       sectionView = this.sectionItemView();
-//     }
-//     let sectionTextView = null;
-//     if (this.state.isTouchDown) {
-//       sectionTextView = (
-//         <View style={cityStyle.selectView}>
-//           <Text style={cityStyle.selectTv}>{this.state.selectText}</Text>
-//         </View>
-//       );
-//     }
-//     return (
-//       <View>
-//         <View style={cityStyle.title}>
-//           <TouchableOpacity
-//             onPress={() => {
-//               this.props.navigation.pop();
-//             }}
-//           >
-//             {/* <Image style={cityStyle.backIcon} source={require('../public_close_icon.png')} /> */}
-//           </TouchableOpacity>
-//           <Text style={cityStyle.title_text}>城市选择</Text>
-//           <View style={{ width: 25, marginRight: 10 }} />
-//         </View>
-//         <View>
-//           <SectionList
-//             ref="sectionList"
-//             renderSectionHeader={this.renderSectionHeader}
-//             renderItem={this.renderItem}
-//             stickySectionHeadersEnabled={true}
-//             showsHorizontalScrollIndicator={false}
-//             sections={this.state.sections}
-//             keyExtractor={this._extraUniqueKey}
-//           />
-//           {sectionView}
-//           {sectionTextView}
-//         </View>
-//       </View>
-//     );
-//   }
-
-//   /*用户手指开始触摸*/
-//   responderGrant(event) {
-//     this.scrollSectionList(event);
-//     this.setState({
-//       isTouchDown: true,
-//     });
-//   }
-
-//   /*用户手指在屏幕上移动手指，没有停下也没有离开*/
-//   responderMove(event) {
-//     console.log('responderMove');
-//     this.scrollSectionList(event);
-//     this.setState({
-//       isTouchDown: true,
-//     });
-//   }
-
-//   /*用户手指离开屏幕*/
-//   responderRelease(event) {
-//     console.log('onTouchUp');
-//     this.setState({
-//       isTouchDown: false,
-//     });
-//   }
-
-//   /*手指滑动，触发事件*/
-//   scrollSectionList(event) {
-//     const touch = event.nativeEvent.touches[0];
-//     // 手指滑动范围 从 A-Q  范围从50 到 50 + sectionItemHeight * cities.length
-//     if (
-//       touch.pageY >= sectionTopBottomHeight + headerHeight + statusHeight &&
-//       touch.pageY <= statusHeight + headerHeight + sectionTopBottomHeight + sectionItemHeight * 25 &&
-//       touch.pageX >= width - sectionWidth &&
-//       touch.pageX <= width
-//     ) {
-//       console.log('touchx' + touch.pageX + '.=======touchY' + touch.pageY);
-//       const index = (touch.pageY - sectionTopBottomHeight - headerHeight) / sectionItemHeight;
-//       console.log('index' + index);
-//       if (Math.round(index) >= 0 && Math.round(index) <= 25) {
-//         this.setState({
-//           selectText: this.state.sections[Math.round(index)].key,
-//         });
-//         //默认跳转到 第 index 个section  的第 1 个 item
-//         this.refs.sectionList.scrollToLocation({
-//           animated: true,
-//           sectionIndex: Math.round(index),
-//           itemIndex: 0,
-//           viewOffset: headerHeight,
-//         });
-//       }
-//     }
-//   }
-
-//   /*右侧索引*/
-//   sectionItemView() {
-//     const sectionItem = this.state.sections.map((item, index) => {
-//       if (index === 0) {
-//         return null;
-//       }
-//       return (
-//         <Text key={index} style={[cityStyle.sectionItemStyle, { backgroundColor: this.state.isTouchDown ? touchDownBGColor : touchUpBGColor }]}>
-//           {item.key}
-//         </Text>
-//       );
-//     });
-
-//     return (
-//       <ScrollView
-//         style={cityStyle.sectionItemViewStyle}
-//         ref="sectionItemView"
-//         onStartShouldSetResponder={() => true} // 在用户开始触摸的时候（手指刚刚接触屏幕的瞬间），是否愿意成为响应者？
-//         onMoveShouldSetResponder={() => true} // :如果View不是响应者，那么在每一个触摸点开始移动（没有停下也没有离开屏幕）时再询问一次：是否愿意响应触摸交互呢？
-//         onResponderTerminationRequest={() => true}
-//         onResponderGrant={this.responderGrant} // View现在要开始响应触摸事件了。这也是需要做高亮的时候，使用户知道他到底点到了哪里
-//         onResponderMove={this.responderMove} // 用户正在屏幕上移动手指时（没有停下也没有离开屏幕）
-//         onResponderRelease={this.responderRelease} // 触摸操作结束时触发，比如"touchUp"（手指抬起离开屏幕）
-//       >
-//         {sectionItem}
-//       </ScrollView>
-//     );
-//   }
-
-//   _extraUniqueKey(item, index) {
-//     return 'index' + index + item;
-//   }
-
-//   _extraUniqueKey2(item, index) {
-//     return 'index2' + index + item;
-//   }
-
-//   renderSectionHeader = (info) => {
-//     let section = info.section.key;
-//     if (section === '热') {
-//       section = '热门城市';
-//     }
-//     return <Text style={cityStyle.sectionStyle}>{section}</Text>;
-//   };
-
-//   renderItem = (info) => {
-//     return (
-//       <View>
-//         <FlatList
-//           data={info.section.data[0].citys}
-//           horizontal={false}
-//           numColumns={4}
-//           showsHorizontalScrollIndicator={false}
-//           renderItem={({ item }) => this._createItem(item)}
-//           keyExtractor={this._extraUniqueKey2}
-//         />
-//       </View>
-//     );
-//   };
-
-//   /**
-//    * 创建布局
-//    */
-//   _createItem(item) {
-//     return (
-//       <TouchableOpacity onPress={this._itemClick.bind(this, item)}>
-//         <Text style={cityStyle.cityItemTv}>{item.city}</Text>
-//       </TouchableOpacity>
-//     );
-//   }
-
-//   /**
-//    * 每个城市的点击
-//    * @param item
-//    */
-//   _itemClick(item) {
-//     console.log(item.city);
-//   }
-// }
-
-// export default City;
-
-// export const cityStyle = StyleSheet.create({
-//   backIcon: {
-//     width: 25,
-//     height: 25,
-//     padding: 5,
-//     marginLeft: 10,
-//   },
-//   title: {
-//     padding: 5,
-//     flexDirection: 'row',
-//     height: headerHeight,
-//   },
-//   title_text: {
-//     flex: 1,
-//     textAlign: 'center',
-//     color: 'black',
-//     fontSize: 20,
-//     fontWeight: 'bold',
-//   },
-//   itemStyle: {
-//     height: 60,
-//     textAlignVertical: 'center',
-//     backgroundColor: '#ffffff',
-//     color: '#5C5C5C',
-//     fontSize: 15,
-//   },
-//   sectionStyle: {
-//     height: 50,
-//     textAlignVertical: 'center',
-//     backgroundColor: '#F8F8F8',
-//     paddingLeft: 20,
-//     color: '#5C5C5C',
-//     fontSize: 16,
-//   },
-//   sectionItemViewStyle: {
-//     position: 'absolute',
-//     width: sectionWidth,
-//     height: height - statusHeight,
-//     right: 0,
-//     top: 0,
-//     paddingTop: sectionTopBottomHeight,
-//     paddingBottom: sectionTopBottomHeight,
-//   },
-//   selectView: {
-//     position: 'absolute',
-//     width: selectWidth,
-//     height: selectWidth,
-//     right: width / 2 - selectWidth / 2,
-//     top: (height - headerHeight - statusHeight) / 2 - selectWidth / 2,
-//     backgroundColor: 'rgba(0,0,0,0.2)',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     borderRadius: 5,
-//   },
-//   selectTv: {
-//     fontSize: 32,
-//     color: '#FFFFFF',
-//   },
-//   sectionItemStyle: {
-//     textAlign: 'center',
-//     alignItems: 'center',
-//     height: sectionItemHeight,
-//     lineHeight: sectionItemHeight,
-//   },
-//   cityItemTv: {
-//     color: 'black',
-//     fontSize: 14,
-//     width: width / 4,
-//     textAlign: 'center',
-//     padding: 10,
-//   },
-// });

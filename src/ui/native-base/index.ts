@@ -1,4 +1,10 @@
-export { Center as NGCenter, Pressable as NGPressable, ScrollView as NGScrollView, SectionList as NGSectionList } from 'native-base';
+export {
+  Center as NGCenter,
+  FlatList as NGFlatList,
+  Pressable as NGPressable,
+  ScrollView as NGScrollView,
+  SectionList as NGSectionList
+} from 'native-base';
 
 export { default as NGNativeBaseProvider } from './NGNativeBaseProvider';
 

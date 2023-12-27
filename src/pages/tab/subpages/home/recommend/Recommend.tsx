@@ -1,3 +1,4 @@
+import { MaoYanRouteName } from '@enum/routeName';
 import ErrorCatchHOC from '@hoc/error/ErrorCatchHOC';
 import useNGNavigation from '@hooks/useNGNavigation';
 import useNGToast from '@hooks/useNGToast';
@@ -10,11 +11,11 @@ const Recommend: React.FC<any> = ({}) => {
   const { t } = useTranslation();
   const { toast } = useNGToast();
   const go2Detail = () => {
-    // navigation.push(MaoYanRouteName.City, {});
+    navigation.push(MaoYanRouteName.City, {});
     // toast('Hello Native', {
     //   icon: '🔥',
     // });
-    toast.success('Successfully toasted!');
+    // toast.success('Successfully toasted!');
   };
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

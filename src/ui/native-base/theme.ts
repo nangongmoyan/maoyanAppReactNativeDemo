@@ -13,6 +13,7 @@ const ngTheme = extendTheme({
   },
   space: {
     5: 5,
+    6: 6,
     8: 8,
     10: 10,
     12: 12,
