@@ -2,15 +2,18 @@ import { CityRank } from '@const/city';
 import { MaoYanRouteName } from '@enum/routeName';
 import { ErrorCatchHOC } from '@hoc/error';
 import useEvent from '@hooks/useEvent';
+import useNGNavigation from '@hooks/useNGNavigation';
 import { MaoYanCity } from '@myTypes/city';
 import { MainScreenProps } from '@navigation/type';
 import { FlashList, ViewToken } from '@shopify/flash-list';
+import { useCityStore } from '@store/city';
 import { NGText, NGVStack } from '@ui';
 import { getCitys } from '@utils/config';
 import { keyExtractor } from '@utils/keyExtractor';
 import { deviceHeight, deviceWidth } from '@utils/scale';
-import React, { useEffect, useRef, useState } from 'react';
-import { GestureResponderEvent, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { GestureResponderEvent, Pressable, ScrollView, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { Geolocation } from 'react-native-amap-geolocation';
 import { HEADER_HEIGHT, HEADER_ITEM_WIDTH } from './const';
 
 const sectionWidth = 20;
@@ -19,11 +22,35 @@ const sectionTopBottomHeight = 60;
 const sectionItemHeight = (deviceHeight - sectionTopBottomHeight * 2 - statusHeight) / CityRank.length;
 
 const City: React.FC<MainScreenProps<MaoYanRouteName.City>> = () => {
-  const citys = getCitys();
+  // const citys = getCitys();
   const flashListRef = useRef();
+  const navigation = useNGNavigation();
+  const [citys, setCitys] = useState<MaoYanCity.SectionCityItem[]>([]);
+  const [locationing, setLocationing] = useState(true);
   const [canTouch, setCanTouch] = useState(false);
   const [isTouchDown, setIsTouchDown] = useState(false);
   const [currentLetter, setCurrentLetter] = useState('A');
+  const [location, setLocation] = useState<MaoYanCity.CityItem>();
+  const { city, historyCitys, setCity, setHistoryCitys } = useCityStore();
+
+  useEffect(() => {
+    let rltCitys: MaoYanCity.SectionCityItem[] = getCitys();
+
+    //@ts-ignore
+    historyCitys.length && rltCitys.unshift({ title: '最近访问城市', data: historyCitys });
+
+    setCitys(rltCitys);
+  }, [historyCitys]);
+
+  const setCurrentCity = useEvent((value: MaoYanCity.CityItem) => {
+    setCity(value);
+    setHistoryCitys(value);
+    navigation.goBack();
+  });
+
+  const ItemStyle = useMemo<ViewStyle>(() => {
+    return StyleSheet.flatten([styles.cityItem, { borderWidth: 0.5, width: HEADER_ITEM_WIDTH }]);
+  }, []);
 
   const renderItem = useEvent(({ item }: { item: MaoYanCity.SectionCityItem }) => (
     <View style={styles.sectionContainer}>
@@ -33,9 +60,11 @@ const City: React.FC<MainScreenProps<MaoYanRouteName.City>> = () => {
       <View style={styles.cityContainer}>
         {item.data.map((value, index) => {
           return (
-            <Pressable key={index}>
-              <View key={index} style={styles.cityItem}>
-                <Text numberOfLines={1}>{value.nm}</Text>
+            <Pressable key={index} onPress={() => setCurrentCity(value)}>
+              <View style={ItemStyle}>
+                <Text numberOfLines={1} style={styles.cityText}>
+                  {value.nm}
+                </Text>
               </View>
             </Pressable>
           );
@@ -115,9 +144,62 @@ const City: React.FC<MainScreenProps<MaoYanRouteName.City>> = () => {
     title && title !== currentLetter && setCurrentLetter(title);
   };
 
+  const renderLocation = useEvent(() => {
+    return (
+      <NGVStack alignItems={'flex-start'}>
+        <NGVStack h={HEADER_HEIGHT} centerV>
+          <NGText fontSize={12}>GPS定位你所在城市</NGText>
+        </NGVStack>
+        {locationing ? (
+          <NGVStack style={styles.cityItem}>
+            <NGText>正在定位中...</NGText>
+          </NGVStack>
+        ) : (
+          <Pressable onPress={() => setCurrentCity(location)}>
+            <View style={ItemStyle}>
+              <Text numberOfLines={1}>{location.nm}</Text>
+            </View>
+          </Pressable>
+        )}
+      </NGVStack>
+    );
+  });
+
+  const renderListHeader = () => {
+    return (
+      <NGVStack bgColor={'white.default'} px={21}>
+        <NGVStack h={HEADER_HEIGHT} centerV>
+          <NGText fontSize={12}>
+            当前城市：
+            <NGText color={'theme.default'}>{city.nm}</NGText>
+          </NGText>
+        </NGVStack>
+        {renderLocation()}
+      </NGVStack>
+    );
+  };
+
   useEffect(() => {
     setTimeout(() => setCanTouch(true), 300);
   }, []);
+
+  useEffect(() => {
+    if (locationing) {
+      Geolocation.getCurrentPosition((position) => {
+        const { location: geolocation } = position;
+        const cityName = geolocation?.city;
+        if (cityName) {
+          citys.forEach((item) => {
+            const currentLocation = item.data.find((value) => value.chineseFullnm === cityName);
+            if (currentLocation) {
+              setLocation(currentLocation);
+              setLocationing(false);
+            }
+          });
+        }
+      });
+    }
+  }, [citys, locationing]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -125,8 +207,9 @@ const City: React.FC<MainScreenProps<MaoYanRouteName.City>> = () => {
         data={citys}
         ref={flashListRef}
         renderItem={renderItem}
-        estimatedItemSize={200}
+        estimatedItemSize={300}
         keyExtractor={keyExtractor}
+        ListHeaderComponent={renderListHeader}
         onViewableItemsChanged={onViewableItemsChanged}
       />
       {canTouch && renderSider()}
@@ -151,10 +234,14 @@ const styles = StyleSheet.create({
     marginTop: 14,
     marginRight: 10,
     borderRadius: 8,
-    borderWidth: 0.5,
+    // borderWidth: 0.5,
     alignItems: 'center',
+    borderColor: '#e6e6e6',
     justifyContent: 'center',
-    width: HEADER_ITEM_WIDTH,
+    // width: HEADER_ITEM_WIDTH,
+  },
+  cityText: {
+    color: '#222',
   },
   siderContainer: {
     right: 10,

@@ -2,6 +2,9 @@ import { extendTheme } from 'native-base';
 
 const ngTheme = extendTheme({
   colors: {
+    theme: {
+      default: '#E24039',
+    },
     white: {
       default: '#FFF',
       F5: '#F5F5F5',
@@ -12,6 +15,7 @@ const ngTheme = extendTheme({
     46: 46,
   },
   space: {
+    3: 3,
     5: 5,
     6: 6,
     8: 8,

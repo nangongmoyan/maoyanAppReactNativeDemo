@@ -31,37 +31,52 @@ export const getCitys = (): MaoYanCity.SectionCityItem[] => {
       return result;
     }) as MaoYanCity.SectionCityItem[];
 
+    const currentCity = popularCitys.find((popularCity) => popularCity.nm === '北京');
+    currentCity && mmkvStorage.set(STORAGE_KEY.CURRENT_CITY, JSON.stringify(currentCity));
     const rltCitys = [{ title: hot, data: popularCitys }, ...citys];
-    mmkvStorage.set(STORAGE_KEY.CITYS, JSON.stringify(rltCitys));
 
+    mmkvStorage.set(STORAGE_KEY.CITYS, JSON.stringify(rltCitys));
     return rltCitys;
   }
 
   return JSON.parse(cityStorage);
 };
 
-/**
- *
- * @returns
- */
-export const getPopularCitys = () => {
-  const popularStorage = mmkvStorage.getString(STORAGE_KEY.POPULAR_CITYS);
-  if (!popularStorage) {
-    const cityStorage = getCitys();
-    const popularCitys: MaoYanCity.CityItem[] = [];
+export const operationCurrentCity = () => {
+  const getCurrentCity = () => {
+    const currentCityStore = mmkvStorage.getString(STORAGE_KEY.CURRENT_CITY);
+    return currentCityStore
+      ? JSON.parse(currentCityStore)
+      : {
+          id: 1,
+          nm: '北京',
+          py: 'beijing',
+          rank: 'S',
+          acronym: 'bj',
+          chineseFullnm: '北京市',
+          position: {
+            lat: 39.908546,
+            lng: 116.397501,
+          },
+        };
+  };
 
-    PopularCityName.forEach((element) => {
-      const item = cityStorage.find((v) => v.title === element.title);
-      if (item) {
-        const value = item.data.find((v) => v.nm === element.nm);
-        value && popularCitys.push(value);
-      }
-    });
+  const setCurrentCity = (value: MaoYanCity.CityItem) => {
+    value && mmkvStorage.set(STORAGE_KEY.CURRENT_CITY, JSON.stringify(value));
+  };
 
-    mmkvStorage.set(STORAGE_KEY.POPULAR_CITYS, JSON.stringify(popularCitys));
+  return { getCurrentCity, setCurrentCity };
+};
 
-    return popularCitys;
-  }
+export const operationHistoryCitys = () => {
+  const getHistoryCitys = () => {
+    const historyCitysStore = mmkvStorage.getString(STORAGE_KEY.HISTORY_CITYS);
+    return historyCitysStore ? JSON.parse(historyCitysStore) : [];
+  };
 
-  return JSON.parse(popularStorage);
+  const setHistoryCitys = (value: MaoYanCity.CityItem[]) => {
+    value && mmkvStorage.set(STORAGE_KEY.HISTORY_CITYS, JSON.stringify(value));
+  };
+
+  return { getHistoryCitys, setHistoryCitys };
 };

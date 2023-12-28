@@ -3,11 +3,7 @@ const firstItem = [
   {
     route: 'WantSeen',
     path: 'eye',
-    labels: [
-      '75944068ed6892a6214035f4bf14581a',
-      '27729ef5754f3a1fe1bbc4d37073f1f7',
-      'c596f5f6225bfa2a312d19783924872c',
-    ],
+    labels: ['75944068ed6892a6214035f4bf14581a', '27729ef5754f3a1fe1bbc4d37073f1f7', 'c596f5f6225bfa2a312d19783924872c'],
   },
   { route: 'Coupon', path: 'coupon', labels: ['d39d31d32b4358bfc368e7fd012ea5c0'] },
 ];

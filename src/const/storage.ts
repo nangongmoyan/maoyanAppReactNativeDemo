@@ -1,4 +1,5 @@
 export const STORAGE_KEY = {
   CITYS: 'app.citys',
-  POPULAR_CITYS: 'app.popular.citys',
+  CURRENT_CITY: 'app.current.city',
+  HISTORY_CITYS: 'app.history.citys',
 };

@@ -1,4 +1,7 @@
 PODS:
+  - AMapFoundation (1.8.2)
+  - AMapLocation (2.9.0):
+    - AMapFoundation (>= 1.7.0)
   - boost (1.76.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
@@ -382,6 +385,9 @@ PODS:
   - React-jsinspector (0.72.7)
   - React-logger (0.72.7):
     - glog
+  - react-native-amap-geolocation (1.2.3):
+    - AMapLocation (~> 2.9.0)
+    - React
   - react-native-get-random-values (1.10.0):
     - React-Core
   - react-native-mmkv (2.11.0):
@@ -568,6 +574,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-amap-geolocation (from `../node_modules/react-native-amap-geolocation`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
@@ -598,6 +605,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AMapFoundation
+    - AMapLocation
     - CocoaAsyncSocket
     - Flipper
     - Flipper-Boost-iOSX
@@ -662,6 +671,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-amap-geolocation:
+    :path: "../node_modules/react-native-amap-geolocation"
   react-native-get-random-values:
     :path: "../node_modules/react-native-get-random-values"
   react-native-mmkv:
@@ -718,6 +729,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AMapFoundation: 9885c48fc3a78fdfb84a0299a2293e56ea3c9fec
+  AMapLocation: f5eb11e11c62f0f599f80b578eec8a1f70deb985
   boost: 57d2868c099736d80fcd648bf211b4431e51a558
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
@@ -755,6 +768,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: c49502e5d02112247ee4526bc3ccfc891ae3eb9b
   React-jsinspector: 8baadae51f01d867c3921213a25ab78ab4fbcd91
   React-logger: 8edc785c47c8686c7962199a307015e2ce9a0e4f
+  react-native-amap-geolocation: 5e707b9006ddc3e4e847b36c4525664e91833b3d
   react-native-get-random-values: 384787fd76976f5aec9465aff6fa9e9129af1e74
   react-native-mmkv: e97c0c79403fb94577e5d902ab1ebd42b0715b43
   react-native-pager-view: e26d35e382d86950c936f8917e3beb9188115ccc
