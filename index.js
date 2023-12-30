@@ -24,4 +24,5 @@ i18n.use(initReactI18next).init({
 });
 
 maoYan.setenv('release');
+
 AppRegistry.registerComponent(appName, () => App);

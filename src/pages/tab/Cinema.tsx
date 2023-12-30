@@ -1,13 +1,17 @@
+import { HeaderWithMenu } from '@components/header';
+import { NGLayout } from '@components/layout';
 import { MaoYanRouteName } from '@enum/routeName';
+import { useCinemaList } from '@features/cinema';
 import { MainScreenProps } from '@navigation/type';
 import React from 'react';
-import { Text, View } from 'react-native';
 
 const Cinema: React.FC<MainScreenProps<MaoYanRouteName.BottomTab>> = (props) => {
+  const { listProps, ...rest } = useCinemaList();
+  console.log({ listProps });
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Cinema Page</Text>
-    </View>
+    <NGLayout scrollEnabled={false}>
+      <HeaderWithMenu />
+    </NGLayout>
   );
 };
 

@@ -21,6 +21,7 @@ module.exports = {
           '@context': './src/context',
           '@myTypes': './src/myTypes',
           '@svgs': './src/assets/svgs',
+          '@features': './src/features',
           '@images': './src/assets/images',
           '@lotties': './src/assets/lotties',
           '@navigation': './src/navigation',

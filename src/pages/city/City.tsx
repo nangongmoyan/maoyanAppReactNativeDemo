@@ -7,7 +7,8 @@ import { MaoYanCity } from '@myTypes/city';
 import { MainScreenProps } from '@navigation/type';
 import { FlashList, ViewToken } from '@shopify/flash-list';
 import { useCityStore } from '@store/city';
-import { NGText, NGVStack } from '@ui';
+import { location as locationSvg } from '@svgs/path';
+import { NGHStack, NGText, NGVStack, SvgIcon, ngTheme } from '@ui';
 import { getCitys } from '@utils/config';
 import { keyExtractor } from '@utils/keyExtractor';
 import { deviceHeight, deviceWidth } from '@utils/scale';
@@ -156,9 +157,12 @@ const City: React.FC<MainScreenProps<MaoYanRouteName.City>> = () => {
           </NGVStack>
         ) : (
           <Pressable onPress={() => setCurrentCity(location)}>
-            <View style={ItemStyle}>
-              <Text numberOfLines={1}>{location.nm}</Text>
-            </View>
+            <NGHStack style={ItemStyle} space={1}>
+              <SvgIcon fills={[ngTheme.colors.theme.default]} paths={locationSvg} size={12} />
+              <Text numberOfLines={1} style={styles.cityText}>
+                {location.nm}
+              </Text>
+            </NGHStack>
           </Pressable>
         )}
       </NGVStack>
@@ -187,6 +191,7 @@ const City: React.FC<MainScreenProps<MaoYanRouteName.City>> = () => {
     if (locationing) {
       Geolocation.getCurrentPosition((position) => {
         const { location: geolocation } = position;
+        console.log({ geolocation });
         const cityName = geolocation?.city;
         if (cityName) {
           citys.forEach((item) => {
@@ -234,11 +239,9 @@ const styles = StyleSheet.create({
     marginTop: 14,
     marginRight: 10,
     borderRadius: 8,
-    // borderWidth: 0.5,
     alignItems: 'center',
     borderColor: '#e6e6e6',
     justifyContent: 'center',
-    // width: HEADER_ITEM_WIDTH,
   },
   cityText: {
     color: '#222',

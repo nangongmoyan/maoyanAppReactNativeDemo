@@ -2,6 +2,7 @@ import { MaoYanCity } from '@myTypes/city';
 import { operationCurrentCity, operationHistoryCitys } from '@utils/config';
 import { createStore } from '@utils/store';
 import { uniqBy } from 'lodash';
+import { maoYan } from 'maoyan-request';
 
 interface CityStore {
   city: MaoYanCity.CityItem;
@@ -19,6 +20,7 @@ export const useCityStore = createStore<CityStore>((set) => {
     setCity: (data) =>
       set((state) => {
         setCurrentCity(data);
+        maoYan.setCityId(data.id.toString());
         return { ...state, city: data };
       }),
     setHistoryCitys: (data) =>

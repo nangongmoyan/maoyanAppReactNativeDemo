@@ -43,6 +43,7 @@
       "@styles/*" : ["styles/*"],
       "@myTypes/*" : ["myTypes/*"],
       "@svgs/*" : ["assets/svgs/*"],
+      "@features/*" : ["features/*"],
       "@context" : ["context/index.ts"],
       "@images/*" : ["assets/images/*"],
       "@lotties/*" : ["assets/lotties/*"],

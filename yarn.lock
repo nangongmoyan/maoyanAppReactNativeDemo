@@ -3489,9 +3489,9 @@ axios@^0.21.4:
     follow-redirects "^1.14.0"
 
 axios@^1.2.0-alpha.1:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.2.tgz#de67d42c755b571d3e698df1b6504cde9b0ee9f2"
-  integrity sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.3.tgz#7f50f23b3aa246eff43c54834272346c396613f4"
+  integrity sha512-fWyNdeawGam70jXSVlKl+SUNVcL6j6W79CuSIPfi6HnDUmSCH6gyUys/HrqHeA/wU0Az41rRgean494d0Jb+ww==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
@@ -6738,10 +6738,10 @@ makeerror@1.0.12:
   dependencies:
     tmpl "1.0.5"
 
-maoyan-request@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/maoyan-request/-/maoyan-request-0.5.1.tgz#e20231ae60051b0be68dfefeef3f3b62120a7b21"
-  integrity sha512-2anUdW54UF2Tm7HX77yI/rTJNRlGxeLWJukBW5So9b3orQlg6L4opDhQW3CNVXWpk2N/a7wcHI4ZDHUbcvP2Yg==
+maoyan-request@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/maoyan-request/-/maoyan-request-0.5.2.tgz#ac35877e3347cfb4b5c9c85b66a884f47c320d5e"
+  integrity sha512-1GFmW9EK1j6nPC57BdZ3ywJu+j6OGVXHQzRdrATOp49GGa4cNtO6F2F9mcjESlpbYbytEIbUs9f3KvQyOXnPFA==
   dependencies:
     "@changesets/cli" "^2.26.2"
     axios "^1.2.0-alpha.1"
