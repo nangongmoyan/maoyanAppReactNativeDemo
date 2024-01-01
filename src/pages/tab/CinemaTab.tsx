@@ -1,18 +1,18 @@
 import { HeaderWithMenu } from '@components/header';
 import { NGLayout } from '@components/layout';
 import { MaoYanRouteName } from '@enum/routeName';
-import { useCinemaList } from '@features/cinema';
+import { ErrorCatchHOC } from '@hoc/error';
 import { MainScreenProps } from '@navigation/type';
 import React from 'react';
+import Cinema from './subpages/cinema/cinema/Cinema';
 
-const Cinema: React.FC<MainScreenProps<MaoYanRouteName.BottomTab>> = (props) => {
-  const { listProps, ...rest } = useCinemaList();
-  console.log({ listProps });
+const CinemaTab: React.FC<MainScreenProps<MaoYanRouteName.BottomTab>> = (props) => {
   return (
-    <NGLayout scrollEnabled={false}>
+    <NGLayout>
       <HeaderWithMenu />
+      <Cinema />
     </NGLayout>
   );
 };
 
-export default Cinema;
+export default ErrorCatchHOC(CinemaTab);

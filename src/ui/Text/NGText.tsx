@@ -4,12 +4,7 @@ import { Text } from 'native-base';
 import React, { memo, useMemo } from 'react';
 import { StyleSheet, TextStyle } from 'react-native';
 
-const NGText: React.FC<React.PropsWithChildren<MaoYanUI.NGTextProps>> = ({
-  style,
-  children,
-  weight = 'normal',
-  ...props
-}) => {
+const NGText: React.FC<React.PropsWithChildren<MaoYanUI.NGTextProps>> = ({ style, children, weight = 'normal', ...props }) => {
   const textStyle: TextStyle = useMemo(() => {
     return {
       fontWeight: weights[weight],

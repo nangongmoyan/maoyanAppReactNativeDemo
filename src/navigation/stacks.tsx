@@ -10,13 +10,7 @@ const RootScreen: React.FC<any> = () => {
     <RootStack.Navigator>
       <RootStack.Group>
         {routerStacks.map((routerStack) => {
-          return (
-            <RootStack.Screen
-              {...routerStack}
-              key={routerStack.name}
-              options={{ headerShown: routerStack.headerShown }}
-            />
-          );
+          return <RootStack.Screen {...routerStack} key={routerStack.name} options={{ headerShown: routerStack.headerShown }} />;
         })}
       </RootStack.Group>
     </RootStack.Navigator>

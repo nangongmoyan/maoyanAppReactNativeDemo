@@ -1,22 +1,29 @@
-import { useNGInfiniteQuery } from '@utils/query';
-import { cinemaApi } from 'maoyan-request';
+import { useCityStore } from '@store/city';
+import { convertInfiniteQueryRlt, defaultInfiniteQueryOptions, useNGInfiniteQuery } from '@utils/query';
+import { MoreCinemasData, cinemaApi } from 'maoyan-request';
+import { CinemaBaseItem, MaoYanLocation } from 'maoyan-request/dist/types';
 import { cinemaKeys } from './queryKeys';
 
-async function fetchData() {
-  const rlt = await cinemaApi.moreCinemas({});
+async function fetchData(offset: number, position: MaoYanLocation) {
+  console.log({ offset });
+  const rlt = await cinemaApi.moreCinemas({
+    offset,
+    limit: 20,
+    lat: 22.5625137,
+    lng: 113.8891763,
+    // ...position,
+  });
 
   return rlt.cinemas;
 }
 
 export const useCinemaList = () => {
-  return useNGInfiniteQuery(cinemaKeys.cinemaList(), ({ pageParam }) => fetchData(), {
-    dataKey: 'cinemas',
+  const { position } = useCityStore((state) => state.city);
+  const rlt = useNGInfiniteQuery({
+    queryKey: cinemaKeys.cinemaList(position),
+    queryFn: ({ pageParam }) => fetchData(pageParam, position),
+    ...defaultInfiniteQueryOptions(),
   });
-  // return useInfiniteQuery({
-  //   queryKey: cinemaKeys.cinemaList(),
-  //   queryFn: ({ pageParam }) => fetchData(),
-  //   initialPageParam: 1,
-  //   getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => lastPage?.nextCursor,
-  //   getPreviousPageParam: (firstPage, allPages, firstPageParam, allPageParams) => firstPage?.prevCursor,
-  // });
+
+  return convertInfiniteQueryRlt<CinemaBaseItem, MoreCinemasData>(rlt, 'cinemas');
 };

@@ -6,7 +6,7 @@ import React, { lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image } from 'react-native';
 
-const Cinema = lazy(() => import('@pages/tab/Cinema'));
+const Cinema = lazy(() => import('@pages/tab/CinemaTab'));
 const Show = lazy(() => import('@pages/tab/Show'));
 const Mine = lazy(() => import('@pages/tab/Mine'));
 const Popular = lazy(() => import('@pages/tab/Popular'));

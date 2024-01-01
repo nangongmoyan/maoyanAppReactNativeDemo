@@ -1,13 +1,59 @@
+import { GetNextPageParamFunction, InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
 import { get } from 'lodash';
-// 将 data.pages 合成一维数组，方便列表渲染使用
-export const flattenData = <TData = any>(data?: TData | undefined, key?: string) => {
-  if (!data) return undefined;
 
-  const pages = data?.pages ?? [];
-  if (pages?.length === 0) return undefined;
+interface DefaultInfiniteQueryOptions<TQueryFnData> {
+  initialPageParam: number;
+  getNextPageParam: GetNextPageParamFunction<number, TQueryFnData | undefined>;
+}
+export const defaultInfiniteQueryOptions = <TQueryFnData = any>(): DefaultInfiniteQueryOptions<TQueryFnData> => {
+  const getNextPageParam = (lastPage: any) => {
+    if (!lastPage?.paging) {
+      return 0;
+    } else if (lastPage.paging?.hasMore) {
+      return lastPage.paging?.offset + lastPage.paging?.limit;
+    } else {
+      return undefined;
+    }
+  };
+  return {
+    initialPageParam: 0,
+    getNextPageParam,
+  };
+};
 
-  return pages.reduce((prev, curr) => {
-    let list = get(curr, key, []);
-    return prev.concat(list);
-  }, []);
+export interface UseNGInfiniteQueryResult<TData> {
+  /** 用于传入 SKFlatList 或者 SKFlashList, 显示 ui */
+  listProps: {
+    data: TData[] | undefined;
+    // isEnd: boolean;
+    // loadingMore: boolean;
+    // status: NetworkStatus;
+    // onRefresh: () => void;
+    onEndReached: () => Promise<any>;
+  };
+}
+
+export const convertInfiniteQueryRlt = <TData = any, TQueryFnData = any>(
+  value: UseInfiniteQueryResult<InfiniteData<TQueryFnData | undefined, unknown>, Error>,
+  dataKey: string,
+): UseInfiniteQueryResult<InfiniteData<TQueryFnData | undefined, unknown>, Error> & UseNGInfiniteQueryResult<TData> => {
+  let list: TData[] = [];
+  const { data } = value;
+
+  if (dataKey) {
+    list =
+      data?.pages.reduce<TData[]>((accumulator, page) => {
+        const groups = (get(page, dataKey) ?? []) as TData[];
+        const items = groups.reduce<TData[]>((all, group) => all.concat(group), []);
+        return accumulator.concat(items);
+      }, []) ?? [];
+  }
+
+  return {
+    ...value,
+    listProps: {
+      data: list,
+      onEndReached: value.fetchNextPage,
+    },
+  };
 };

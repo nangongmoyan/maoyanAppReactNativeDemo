@@ -1,5 +1,6 @@
 export { SafeAreaProvider as NGSAProvider, SafeAreaView as NGSAView } from 'react-native-safe-area-context';
 export * from './Decorate';
+export * from './FlashList';
 export * from './HStack';
 export * from './RowItem';
 export * from './ShadowBox';
