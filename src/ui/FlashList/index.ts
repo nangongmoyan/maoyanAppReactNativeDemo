@@ -1,1 +1,1 @@
-export * from './NGFlashList';
+export { default as NGFlashList } from './NGFlashList';

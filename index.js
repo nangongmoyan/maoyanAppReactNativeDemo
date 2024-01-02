@@ -1,3 +1,4 @@
+import { operationCurrentCity } from '@utils/config';
 import i18n from 'i18next';
 import { maoYan } from 'maoyan-request';
 import { initReactI18next } from 'react-i18next';
@@ -22,7 +23,9 @@ i18n.use(initReactI18next).init({
 
   ns: ['common'],
 });
+const { getCurrentCity } = operationCurrentCity();
 
-maoYan.setenv('release');
+maoYan.setenv('release').setCityId(getCurrentCity().id.toString());
+// .setCityId(maoYan.setCityId(getCurrentCity().id.toString()));
 
 AppRegistry.registerComponent(appName, () => App);

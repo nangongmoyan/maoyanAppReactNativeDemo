@@ -1,3 +1,4 @@
+import { NetworkStatus } from '@enum/request';
 import { GetNextPageParamFunction, InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
 import { get } from 'lodash';
 
@@ -22,12 +23,12 @@ export const defaultInfiniteQueryOptions = <TQueryFnData = any>(): DefaultInfini
 };
 
 export interface UseNGInfiniteQueryResult<TData> {
-  /** 用于传入 SKFlatList 或者 SKFlashList, 显示 ui */
+  /** 用于传入 NGFlatList 或者NGKFlashList, 显示 ui */
   listProps: {
     data: TData[] | undefined;
-    // isEnd: boolean;
-    // loadingMore: boolean;
-    // status: NetworkStatus;
+    isEnd: boolean;
+    loadingMore: boolean;
+    maoyanStatus: NetworkStatus;
     // onRefresh: () => void;
     onEndReached: () => Promise<any>;
   };
@@ -36,24 +37,40 @@ export interface UseNGInfiniteQueryResult<TData> {
 export const convertInfiniteQueryRlt = <TData = any, TQueryFnData = any>(
   value: UseInfiniteQueryResult<InfiniteData<TQueryFnData | undefined, unknown>, Error>,
   dataKey: string,
+  convertExtraData?: (item: TData) => TData,
 ): UseInfiniteQueryResult<InfiniteData<TQueryFnData | undefined, unknown>, Error> & UseNGInfiniteQueryResult<TData> => {
   let list: TData[] = [];
   const { data } = value;
+
+  let maoyanStatus = NetworkStatus.InitLoading;
 
   if (dataKey) {
     list =
       data?.pages.reduce<TData[]>((accumulator, page) => {
         const groups = (get(page, dataKey) ?? []) as TData[];
-        const items = groups.reduce<TData[]>((all, group) => all.concat(group), []);
+        const items = groups.reduce<TData[]>((all, group) => all.concat(convertExtraData ? convertExtraData(group) : group), []);
         return accumulator.concat(items);
       }, []) ?? [];
+  }
+
+  if (value.isLoading) {
+    maoyanStatus = NetworkStatus.InitLoading;
+  } else if (value.isFetchingNextPage) {
+    maoyanStatus = NetworkStatus.LoadingMore;
+  } else if (value.isRefetching) {
+    maoyanStatus = NetworkStatus.Refreshing;
+  } else {
+    maoyanStatus = NetworkStatus.Success;
   }
 
   return {
     ...value,
     listProps: {
       data: list,
+      maoyanStatus,
       onEndReached: value.fetchNextPage,
+      loadingMore: value.isFetchingNextPage,
+      isEnd: !!list?.length && !value.hasNextPage,
     },
   };
 };

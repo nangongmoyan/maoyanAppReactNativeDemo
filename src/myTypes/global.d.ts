@@ -5,6 +5,8 @@ declare global {
   type ComponentConstruct<T> = React.FunctionComponent<T> | React.ComponentClass<T>;
   /** */
   type FlexAlign = 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline';
+
+  // type NetworkStatus = 'initLoading' | 'refreshing' | 'loadingMore' | 'success' | 'error' | 'idle';
 }
 
 /* eslint-disable prettier/prettier */

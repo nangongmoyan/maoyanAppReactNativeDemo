@@ -191,7 +191,6 @@ const City: React.FC<MainScreenProps<MaoYanRouteName.City>> = () => {
     if (locationing) {
       Geolocation.getCurrentPosition((position) => {
         const { location: geolocation } = position;
-        console.log({ geolocation });
         const cityName = geolocation?.city;
         if (cityName) {
           citys.forEach((item) => {

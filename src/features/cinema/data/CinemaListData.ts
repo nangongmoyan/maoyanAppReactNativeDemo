@@ -1,29 +1,37 @@
-import { useCityStore } from '@store/city';
+import { useLocation } from '@store/location';
+import { convertPrice } from '@utils/price';
 import { convertInfiniteQueryRlt, defaultInfiniteQueryOptions, useNGInfiniteQuery } from '@utils/query';
 import { MoreCinemasData, cinemaApi } from 'maoyan-request';
 import { CinemaBaseItem, MaoYanLocation } from 'maoyan-request/dist/types';
+import { convertPromotion, convertTags } from '../utils';
 import { cinemaKeys } from './queryKeys';
 
 async function fetchData(offset: number, position: MaoYanLocation) {
-  console.log({ offset });
   const rlt = await cinemaApi.moreCinemas({
     offset,
     limit: 20,
-    lat: 22.5625137,
-    lng: 113.8891763,
-    // ...position,
+    ...position,
   });
 
   return rlt.cinemas;
 }
 
 export const useCinemaList = () => {
-  const { position } = useCityStore((state) => state.city);
+  const { location } = useLocation();
   const rlt = useNGInfiniteQuery({
-    queryKey: cinemaKeys.cinemaList(position),
-    queryFn: ({ pageParam }) => fetchData(pageParam, position),
+    queryKey: cinemaKeys.cinemaList(location),
+    queryFn: ({ pageParam }) => fetchData(pageParam, location),
     ...defaultInfiniteQueryOptions(),
   });
 
-  return convertInfiniteQueryRlt<CinemaBaseItem, MoreCinemasData>(rlt, 'cinemas');
+  return convertInfiniteQueryRlt<CinemaBaseItem, MoreCinemasData>(rlt, 'cinemas', convertExtraData);
+};
+
+const convertExtraData = (item: CinemaBaseItem) => {
+  return {
+    ...item,
+    tags: convertTags(item.tag),
+    price: convertPrice(item.sellPrice),
+    promotions: convertPromotion(item.promotion),
+  };
 };

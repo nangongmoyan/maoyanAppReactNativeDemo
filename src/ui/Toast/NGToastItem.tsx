@@ -44,7 +44,7 @@ const NGToastItem: React.FC<NGToastItemProps> = ({ toast, updateHeight, offset }
         style={styles.lottieView}
         onAnimationLoaded={onAnimationLoaded}
         enableMergePathsAndroidForKitKatAndAbove
-        source={toast.type === 'success' ? require('@lotties/success.json') : require('@lotties/error.json')}
+        source={toast.type === 'success' ? require('@lotties/toastSuccess.json') : require('@lotties/toastError.json')}
       />
     );
   });

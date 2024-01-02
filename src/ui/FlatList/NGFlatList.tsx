@@ -1,25 +1,22 @@
-import { FlashList, FlashListProps } from '@shopify/flash-list';
-
 import { NetworkStatus } from '@enum/request';
 import { keyExtractor } from '@utils/keyExtractor';
 import React, { memo, useCallback } from 'react';
-import { ViewStyle } from 'react-native';
+import { FlatList, FlatListProps } from 'react-native';
 import End from '../Multi/End';
 import Loading from '../Multi/Loading';
 import UpLoading from '../Multi/UpLoading';
 import { NGVStack } from '../VStack';
 
-interface NGFlashListProps extends FlashListProps<any> {
+interface NGFlatListProps extends FlatListProps<any> {
   isEnd?: boolean;
   maoyanStatus: NetworkStatus;
-  containerStyle?: ViewStyle;
 }
-
-const NGFlashList: React.FC<NGFlashListProps> = ({ onEndReached, maoyanStatus, isEnd, containerStyle, ...rest }) => {
-  console.log({ maoyanStatus });
-  const _onEndReached = () => {
-    onEndReached?.();
+const NGFlatList: React.FC<NGFlatListProps> = ({ onEndReached, maoyanStatus, isEnd, ...rest }) => {
+  const _onEndReached = (e) => {
+    onEndReached && onEndReached(e);
   };
+
+  console.log({ isEnd, maoyanStatus });
   const _renderFooter = useCallback(() => {
     if (isEnd) return <End />;
     if (maoyanStatus === 'loadingMore') return <UpLoading />;
@@ -31,13 +28,11 @@ const NGFlashList: React.FC<NGFlashListProps> = ({ onEndReached, maoyanStatus, i
   }
 
   return (
-    <NGVStack flex={1} style={containerStyle}>
-      <FlashList
-        estimatedItemSize={80}
+    <NGVStack flex={1}>
+      <FlatList
         keyExtractor={keyExtractor}
-        scrollEventThrottle={16}
-        onEndReachedThreshold={0.95}
         onEndReached={_onEndReached}
+        onEndReachedThreshold={0.95}
         showsVerticalScrollIndicator={false}
         ListFooterComponent={_renderFooter}
         {...rest}
@@ -46,4 +41,4 @@ const NGFlashList: React.FC<NGFlashListProps> = ({ onEndReached, maoyanStatus, i
   );
 };
 
-export default memo(NGFlashList);
+export default memo(NGFlatList);

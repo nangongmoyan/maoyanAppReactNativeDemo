@@ -11,10 +11,12 @@ const ngTheme = extendTheme({
     },
   },
   sizes: {
+    16: 16,
     20: 20,
     46: 46,
   },
   space: {
+    2: 2,
     3: 3,
     5: 5,
     6: 6,
