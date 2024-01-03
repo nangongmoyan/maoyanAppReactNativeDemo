@@ -1,16 +1,16 @@
 import { CityRank } from '@const/city';
+import { NetworkStatus } from '@enum/request';
 import { MaoYanRouteName } from '@enum/routeName';
 import { ErrorCatchHOC } from '@hoc/error';
 import useEvent from '@hooks/useEvent';
 import useNGNavigation from '@hooks/useNGNavigation';
 import { MaoYanCity } from '@myTypes/city';
 import { MainScreenProps } from '@navigation/type';
-import { FlashList, ViewToken } from '@shopify/flash-list';
-import { useCityStore } from '@store/city';
+import { ViewToken } from '@shopify/flash-list';
+import { usePositionStore } from '@store/position';
 import { location as locationSvg } from '@svgs/path';
-import { NGHStack, NGText, NGVStack, SvgIcon, ngTheme } from '@ui';
+import { NGFlashList, NGHStack, NGText, NGVStack, SvgIcon, ngTheme } from '@ui';
 import { getCitys } from '@utils/config';
-import { keyExtractor } from '@utils/keyExtractor';
 import { deviceHeight, deviceWidth } from '@utils/scale';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { GestureResponderEvent, Pressable, ScrollView, StyleSheet, Text, View, ViewStyle } from 'react-native';
@@ -23,7 +23,6 @@ const sectionTopBottomHeight = 60;
 const sectionItemHeight = (deviceHeight - sectionTopBottomHeight * 2 - statusHeight) / CityRank.length;
 
 const City: React.FC<MainScreenProps<MaoYanRouteName.City>> = () => {
-  // const citys = getCitys();
   const flashListRef = useRef();
   const navigation = useNGNavigation();
   const [citys, setCitys] = useState<MaoYanCity.SectionCityItem[]>([]);
@@ -32,7 +31,8 @@ const City: React.FC<MainScreenProps<MaoYanRouteName.City>> = () => {
   const [isTouchDown, setIsTouchDown] = useState(false);
   const [currentLetter, setCurrentLetter] = useState('A');
   const [location, setLocation] = useState<MaoYanCity.CityItem>();
-  const { city, historyCitys, setCity, setHistoryCitys } = useCityStore();
+
+  const { city, setCity, historyCitys, setHistoryCitys } = usePositionStore();
 
   useEffect(() => {
     let rltCitys: MaoYanCity.SectionCityItem[] = getCitys();
@@ -205,20 +205,27 @@ const City: React.FC<MainScreenProps<MaoYanRouteName.City>> = () => {
     }
   }, [citys, locationing]);
 
+  const [maoyanStatus, setMaoyanStatus] = useState(NetworkStatus.InitLoading);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMaoyanStatus(NetworkStatus.Success);
+    }, 100);
+  }, []);
   return (
-    <View style={{ flex: 1 }}>
-      <FlashList
+    <NGVStack flex={1}>
+      <NGFlashList
         data={citys}
-        ref={flashListRef}
+        maoyanStatus={maoyanStatus}
+        // ref={flashListRef}
         renderItem={renderItem}
         estimatedItemSize={300}
-        keyExtractor={keyExtractor}
         ListHeaderComponent={renderListHeader}
         onViewableItemsChanged={onViewableItemsChanged}
       />
       {canTouch && renderSider()}
       {isTouchDown && renderSelectTextView()}
-    </View>
+    </NGVStack>
   );
 };
 

@@ -1,26 +1,28 @@
+import { LIST_ITEM_FIRST, LIST_ITEM_FOUR, LIST_ITEM_SECOND, LIST_ITEM_THIRD, LIST_ITEM_WIDTH } from '@features/cinema';
 import { NGHStack, NGText, NGVStack, ShadowBox, ngTheme } from '@ui';
-import { deviceWidth, vw } from '@utils/scale';
+import { vw } from '@utils/scale';
 import { CinemaBaseItem } from 'maoyan-request/dist/types';
-import { theme } from 'native-base';
 import React, { memo } from 'react';
 
 interface CinemaItemProps extends CinemaBaseItem {}
 const CinemaItem: React.FC<CinemaItemProps> = (item) => {
   return (
-    <ShadowBox boxWidth={deviceWidth - 32} boxStyle={{ marginTop: 10 }}>
-      <NGVStack p={16} flex={1} backgroundColor={'red'} space={2}>
-        <NGHStack centerV justifyContent={'space-between'}>
+    <ShadowBox boxWidth={LIST_ITEM_WIDTH}>
+      <NGVStack p={16}>
+        <NGHStack centerV height={LIST_ITEM_FIRST} justifyContent={'space-between'}>
           <NGText fontSize={16} weight={'semibold'} maxW={vw(72)} numberOfLines={1}>
             {item.nm}
           </NGText>
-          <NGText fontSize={12} color={ngTheme.colors.theme.default}>
-            {item?.price.integer}
-            <NGText fontSize={10}>
-              {item?.price.decimal}元<NGText color="#8b8a8e">起</NGText>
+          {item.price.available && (
+            <NGText fontSize={12} color={ngTheme.colors.theme.default}>
+              {item?.price.integer}
+              <NGText fontSize={10}>
+                {item?.price.decimal}元<NGText color="#8b8a8e">起</NGText>
+              </NGText>
             </NGText>
-          </NGText>
+          )}
         </NGHStack>
-        <NGHStack centerV justifyContent={'space-between'}>
+        <NGHStack centerV height={LIST_ITEM_SECOND} justifyContent={'space-between'}>
           <NGText fontSize={12} maxW={vw(72)} numberOfLines={1}>
             {item.addr}
           </NGText>
@@ -29,7 +31,7 @@ const CinemaItem: React.FC<CinemaItemProps> = (item) => {
         <NGHStack space={1} flexWrap={'wrap'}>
           {item?.tags.map((tag, index) => {
             return (
-              <NGVStack key={index} borderWidth={0.5} borderColor={tag.color} px={1} py={0.5} borderRadius={4}>
+              <NGVStack centerV key={index} height={LIST_ITEM_THIRD} borderWidth={0.5} borderColor={tag.color} px={1} borderRadius={4}>
                 <NGText fontSize={10} color={tag.color}>
                   {tag.label}
                 </NGText>
@@ -40,13 +42,13 @@ const CinemaItem: React.FC<CinemaItemProps> = (item) => {
         <NGVStack>
           {item?.promotions.map((promotion, index) => {
             return (
-              <NGHStack key={index} mt={5} space={1}>
+              <NGHStack key={index} centerV space={1} height={LIST_ITEM_FOUR}>
                 <NGVStack bgColor={promotion.bgColor} width={16} height={16} centerH centerV borderRadius={2}>
-                  <NGText fontSize={11} height={16} color={theme.colors.white}>
+                  <NGText fontSize={10} color={ngTheme.colors.white}>
                     {promotion.label}
                   </NGText>
                 </NGVStack>
-                <NGText fontSize={11}>{promotion.value}</NGText>
+                <NGText fontSize={10}>{promotion.value}</NGText>
               </NGHStack>
             );
           })}

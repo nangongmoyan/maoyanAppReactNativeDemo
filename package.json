@@ -12,6 +12,7 @@
     "build:dll": "mcs-scripts build -t dll -od public/dll",
     "build": "mcs-scripts build -t busine -e index.js",
     "intl": "nangongmoyan-i18n-toolkit",
+    "postinstall": "patch-package",
     "prettier": "prettier --write ."
   },
   "dependencies": {
@@ -30,6 +31,7 @@
     "maoyan-request": "^0.5.2",
     "nangongmoyan-i18n-toolkit": "^0.1.2",
     "native-base": "^3.4.28",
+    "patch-package": "^8.0.0",
     "react": "18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-i18next": "^13.5.0",
@@ -46,6 +48,7 @@
     "react-native-screens": "^3.27.0",
     "react-native-svg": "^14.1.0",
     "react-native-tab-view": "^3.5.2",
+    "recyclerlistview": "^4.2.0",
     "zustand": "^4.4.7"
   },
   "devDependencies": {

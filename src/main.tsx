@@ -6,10 +6,10 @@ import { isiOS } from '@utils/screen';
 import React, { Suspense, useEffect } from 'react';
 import { PermissionsAndroid, StatusBar, Text } from 'react-native';
 import { Geolocation, init } from 'react-native-amap-geolocation';
-import { useLocation } from './store';
+import { usePositionStore } from './store';
 import { NGNativeBaseProvider, NGSAProvider, NGToasts } from './ui';
 const Main = () => {
-  const { setLocation } = useLocation();
+  const { setLocation } = usePositionStore();
   const initData = async () => {
     getCitys();
 

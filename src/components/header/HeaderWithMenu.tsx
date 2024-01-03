@@ -2,7 +2,7 @@ import { MaoYanRouteName } from '@enum/routeName';
 import useEvent from '@hooks/useEvent';
 import useNGDrawer from '@hooks/useNGDrawer';
 import useNGNavigation from '@hooks/useNGNavigation';
-import { useCityStore } from '@store/city';
+import { usePositionStore } from '@store/position';
 import { downArrowFull, pathMap } from '@svgs/path';
 import { NGHStack, NGPressable, NGText, SvgIcon } from '@ui';
 import React, { memo, useMemo } from 'react';
@@ -12,7 +12,7 @@ const HeaderWithMenu: React.FC<HeaderWithMenuProps> = () => {
   const navigation = useNGNavigation();
   const { isDrawerOpen, onToggle } = useNGDrawer();
 
-  const city = useCityStore((state) => state.city);
+  const city = usePositionStore((state) => state.city);
 
   const paths = useMemo(() => (isDrawerOpen ? pathMap.toggleLeft : pathMap.toggleRight), [isDrawerOpen]);
 

@@ -1,11 +1,9 @@
-import { operationCurrentCity } from '@utils/config';
+import { MaoYanCity } from '@myTypes/city';
 import { MaoYanLocation } from 'maoyan-request/dist/types';
 
 const defaultKey = 'cinema' as const;
 
-const { getCurrentCity } = operationCurrentCity();
-
 export const cinemaKeys = {
   /** 搜索电影院列表 */
-  cinemaList: (position: MaoYanLocation) => [defaultKey, 'cinemaList', position, getCurrentCity()] as const,
+  cinemaList: (position: MaoYanLocation, city: MaoYanCity.CityItem) => [defaultKey, 'cinemaList', position, city] as const,
 };

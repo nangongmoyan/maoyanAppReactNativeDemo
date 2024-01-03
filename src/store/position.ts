@@ -3,20 +3,30 @@ import { operationCurrentCity, operationHistoryCitys } from '@utils/config';
 import { createStore } from '@utils/store';
 import { uniqBy } from 'lodash';
 import { maoYan } from 'maoyan-request';
+import { MaoYanLocation } from 'maoyan-request/dist/types';
 
-interface CityStore {
+interface PositionStore {
+  location: MaoYanLocation;
   city: MaoYanCity.CityItem;
   historyCitys: MaoYanCity.CityItem[];
+  setLocation: (data: MaoYanLocation) => void;
   setCity: (data: MaoYanCity.CityItem) => void;
   setHistoryCitys: (data: MaoYanCity.CityItem) => void;
 }
 
-export const useCityStore = createStore<CityStore>((set) => {
-  const { getCurrentCity, setCurrentCity } = operationCurrentCity();
-  const { getHistoryCitys, setHistoryCitys } = operationHistoryCitys();
+const { getCurrentCity, setCurrentCity } = operationCurrentCity();
+const { getHistoryCitys, setHistoryCitys } = operationHistoryCitys();
+
+export const usePositionStore = createStore<PositionStore>((set) => {
   return {
+    location: {
+      lat: 39.908546,
+      lng: 116.397501,
+    },
     city: getCurrentCity(),
     historyCitys: getHistoryCitys(),
+
+    setLocation: (data: MaoYanLocation) => set((_) => ({ location: data })),
     setCity: (data) =>
       set((state) => {
         setCurrentCity(data);
@@ -31,5 +41,3 @@ export const useCityStore = createStore<CityStore>((set) => {
       }),
   };
 });
-
-export const useSetCity = () => useCityStore((state) => state.setCity);
